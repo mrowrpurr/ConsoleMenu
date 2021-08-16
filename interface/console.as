@@ -252,4 +252,13 @@ class Console extends MovieClip
          this.ResetCommandEntry();
       }
    }
+   function SetCommandEntryCursorPosition(posArray)
+   {
+      this.CommandEntry.setSelection(posArray[0],posArray[1]);
+   }
+   function SetCommandEntryText(text)
+   {
+      this.CommandEntry.text = text;
+      this.CommandEntry.setSelection(text.length,text.length);
+   }
 }

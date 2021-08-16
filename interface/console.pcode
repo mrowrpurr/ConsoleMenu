@@ -1,11 +1,11 @@
-ConstantPool "IsConsoleHelperConsole" "RunCommandEntryText" "ScrollUp" "ScrollDown" "ExecuteCommand" "_global" "Console" "gfxExtensions" "Shared" "GlobalFunc" "MaintainTextFormat" "ConsoleInstance" "Background" "CommandEntry" "CurrentSelection" "CurrentSelectionYOffset" "_height" "_y" "CommandHistory" "TextXOffset" "_x" "OriginalHeight" "Stage" "height" "OriginalWidth" "HandleEnterReturnKeys" "" "width" "ScreenPercent" "PreviousCommandOffset" "Shown" "Animating" "Hiding" "getTextFormat" "setNewTextFormat" "text" "" "noTranslate" "align" "BL" "scaleMode" "noScale" "addListener" "Key" "onResize" "MovieClip" "prototype" "Show" "_parent" "show_anim" "gotoAndPlay" "Selection" "setFocus" "length" "setSelection" "ShowComplete" "Hide" "hide_anim" "ResetCommandEntry" "HideComplete" "gfx" "io" "GameDelegate" "call" "Minimize" "SetCurrentSelection" "QShown" "QHiding" "PreviousCommand" "Commands" "NextCommand" "AddHistory" "HistoryCharBufferSize" "substr" "scroll" "maxscroll" "ClearHistory" "SetHistoryCharBufferSize" "SetTextColor" "textColor" "SetTextSize" "getNewTextFormat" "size" "Math" "max" "setTextFormat" "PositionTextFields" "SetHistoryTextColor" "SetSize" "onKeyDown" "getCode" "PREVIOUS_COMMANDS" "shift" "push" "\n" "ExecuteCommand" "bottomScroll" "_width" "Array" "ASSetPropFlags"
+ConstantPool "SetCommandEntryCursorPosition" "SetCommandEntryText" "IsConsoleHelperConsole" "RunCommandEntryText" "ScrollUp" "ScrollDown" "ExecuteCommand" "_global" "Console" "gfxExtensions" "Shared" "GlobalFunc" "MaintainTextFormat" "ConsoleInstance" "Background" "CommandEntry" "CurrentSelection" "CurrentSelectionYOffset" "_height" "_y" "CommandHistory" "TextXOffset" "_x" "OriginalHeight" "Stage" "height" "OriginalWidth" "HandleEnterReturnKeys" "" "width" "ScreenPercent" "PreviousCommandOffset" "Shown" "Animating" "Hiding" "getTextFormat" "setNewTextFormat" "text" "" "noTranslate" "align" "BL" "scaleMode" "noScale" "addListener" "Key" "onResize" "MovieClip" "prototype" "Show" "_parent" "show_anim" "gotoAndPlay" "Selection" "setFocus" "length" "setSelection" "ShowComplete" "Hide" "hide_anim" "ResetCommandEntry" "HideComplete" "gfx" "io" "GameDelegate" "call" "Minimize" "SetCurrentSelection" "QShown" "QHiding" "PreviousCommand" "Commands" "NextCommand" "AddHistory" "HistoryCharBufferSize" "substr" "scroll" "maxscroll" "ClearHistory" "SetHistoryCharBufferSize" "SetTextColor" "textColor" "SetTextSize" "getNewTextFormat" "size" "Math" "max" "setTextFormat" "PositionTextFields" "SetHistoryTextColor" "SetSize" "onKeyDown" "getCode" "PREVIOUS_COMMANDS" "shift" "push" "\n" "ExecuteCommand" "bottomScroll" "_width" "Array" "ASSetPropFlags"
 Push "_global"
 GetVariable
 Push "Console"
 GetMember
 Not
 Not
-If loc16f3
+If loc17b9
 Push "_global"
 GetVariable
 Push "Console"
@@ -177,7 +177,7 @@ Equals2
 Not
 PushDuplicate
 Not
-If loc0725
+If loc0757
 Pop
 Push "Console"
 GetVariable
@@ -186,8 +186,8 @@ GetMember
 Push "Animating"
 GetMember
 Not
-loc0725:Not
-If loc07f5
+loc0757:Not
+If loc0827
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -249,7 +249,7 @@ Push "setSelection"
 CallMethod
 Pop
 }
-loc07f5:SetMember
+loc0827:SetMember
 Push register1 "ShowComplete"
 DefineFunction "" 0  {
 Push "Console"
@@ -260,7 +260,7 @@ Push null
 Equals2
 Not
 Not
-If loc0845
+If loc0877
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -274,7 +274,7 @@ GetMember
 Push "Animating" false
 SetMember
 }
-loc0845:SetMember
+loc0877:SetMember
 Push register1 "Hide"
 DefineFunction "" 0  {
 Push "Console"
@@ -286,7 +286,7 @@ Equals2
 Not
 PushDuplicate
 Not
-If loc0882
+If loc08b4
 Pop
 Push "Console"
 GetVariable
@@ -295,8 +295,8 @@ GetMember
 Push "Animating"
 GetMember
 Not
-loc0882:Not
-If loc0908
+loc08b4:Not
+If loc093a
 Push "hide_anim" 1 "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -331,7 +331,7 @@ GetMember
 Push "Hiding" true
 SetMember
 }
-loc0908:SetMember
+loc093a:SetMember
 Push register1 "HideComplete"
 DefineFunction "" 0  {
 Push "Console"
@@ -342,7 +342,7 @@ Push null
 Equals2
 Not
 Not
-If loc0999
+If loc09cb
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -373,7 +373,7 @@ Push "call"
 CallMethod
 Pop
 }
-loc0999:SetMember
+loc09cb:SetMember
 Push register1 "Minimize"
 DefineFunction "" 0  {
 Push "Console"
@@ -384,7 +384,7 @@ Push null
 Equals2
 Not
 Not
-If loc0a01
+If loc0a33
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -408,7 +408,7 @@ GetMember
 Subtract
 SetMember
 }
-loc0a01:SetMember
+loc0a33:SetMember
 Push register1 "SetCurrentSelection"
 DefineFunction2 "" 1 2 false false true false true false true false false 1 "selectionText"  {
 Push "Console"
@@ -419,7 +419,7 @@ Push null
 Equals2
 Not
 Not
-If loc0a55
+If loc0a87
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -429,7 +429,7 @@ GetMember
 Push "text" register1
 SetMember
 }
-loc0a55:SetMember
+loc0a87:SetMember
 Push register1 "QShown"
 DefineFunction "" 0  {
 Push "Console"
@@ -441,7 +441,7 @@ Equals2
 Not
 PushDuplicate
 Not
-If loc0a91
+If loc0ac3
 Pop
 Push "Console"
 GetVariable
@@ -449,9 +449,9 @@ Push "ConsoleInstance"
 GetMember
 Push "Shown"
 GetMember
-loc0a91:PushDuplicate
+loc0ac3:PushDuplicate
 Not
-If loc0aac
+If loc0ade
 Pop
 Push "Console"
 GetVariable
@@ -460,7 +460,7 @@ GetMember
 Push "Animating"
 GetMember
 Not
-loc0aac:Return
+loc0ade:Return
 }
 SetMember
 Push register1 "QHiding"
@@ -474,7 +474,7 @@ Equals2
 Not
 PushDuplicate
 Not
-If loc0ae9
+If loc0b1b
 Pop
 Push "Console"
 GetVariable
@@ -482,7 +482,7 @@ Push "ConsoleInstance"
 GetMember
 Push "Hiding"
 GetMember
-loc0ae9:Return
+loc0b1b:Return
 }
 SetMember
 Push register1 "PreviousCommand"
@@ -495,7 +495,7 @@ Push null
 Equals2
 Not
 Not
-If loc0c48
+If loc0c7a
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -512,7 +512,7 @@ Push "length"
 GetMember
 Less2
 Not
-If loc0b65
+If loc0b97
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -525,7 +525,7 @@ Push "PreviousCommandOffset"
 GetMember
 Increment
 SetMember
-loc0b65:Push 0.0 "Console"
+loc0b97:Push 0.0 "Console"
 GetVariable
 Push "ConsoleInstance"
 GetMember
@@ -537,7 +537,7 @@ Equals2
 Not
 PushDuplicate
 Not
-If loc0bad
+If loc0bdf
 Pop
 Push 0.0 "Console"
 GetVariable
@@ -547,8 +547,8 @@ Push "PreviousCommandOffset"
 GetMember
 Equals2
 Not
-loc0bad:Not
-If loc0c48
+loc0bdf:Not
+If loc0c7a
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -600,7 +600,7 @@ Push "setSelection"
 CallMethod
 Pop
 }
-loc0c48:SetMember
+loc0c7a:SetMember
 Push register1 "NextCommand"
 DefineFunction "" 0  {
 Push "Console"
@@ -611,7 +611,7 @@ Push null
 Equals2
 Not
 Not
-If loc0d96
+If loc0dc8
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -621,7 +621,7 @@ GetMember
 Push 1
 Greater
 Not
-If loc0cb3
+If loc0ce5
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -634,7 +634,7 @@ Push "PreviousCommandOffset"
 GetMember
 Decrement
 SetMember
-loc0cb3:Push 0.0 "Console"
+loc0ce5:Push 0.0 "Console"
 GetVariable
 Push "ConsoleInstance"
 GetMember
@@ -646,7 +646,7 @@ Equals2
 Not
 PushDuplicate
 Not
-If loc0cfb
+If loc0d2d
 Pop
 Push 0.0 "Console"
 GetVariable
@@ -656,8 +656,8 @@ Push "PreviousCommandOffset"
 GetMember
 Equals2
 Not
-loc0cfb:Not
-If loc0d96
+loc0d2d:Not
+If loc0dc8
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -709,7 +709,7 @@ Push "setSelection"
 CallMethod
 Pop
 }
-loc0d96:SetMember
+loc0dc8:SetMember
 Push register1 "AddHistory"
 DefineFunction2 "" 1 2 false false true false true false true false false 1 "aText"  {
 Push "Console"
@@ -720,7 +720,7 @@ Push null
 Equals2
 Not
 Not
-If loc0ea7
+If loc0ed9
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -754,7 +754,7 @@ Push "HistoryCharBufferSize"
 GetMember
 Greater
 Not
-If loc0e7a
+If loc0eac
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -777,7 +777,7 @@ GetMember
 Push "substr"
 CallMethod
 SetMember
-loc0e7a:Push "Console"
+loc0eac:Push "Console"
 GetVariable
 Push "ConsoleInstance"
 GetMember
@@ -793,7 +793,7 @@ Push "maxscroll"
 GetMember
 SetMember
 }
-loc0ea7:SetMember
+loc0ed9:SetMember
 Push register1 "ClearHistory"
 DefineFunction "" 0  {
 Push "Console"
@@ -804,7 +804,7 @@ Push null
 Equals2
 Not
 Not
-If loc0ee9
+If loc0f1b
 Push "Console"
 GetVariable
 Push "ConsoleInstance"
@@ -814,7 +814,7 @@ GetMember
 Push "text" ""
 SetMember
 }
-loc0ee9:SetMember
+loc0f1b:SetMember
 Push register1 "SetHistoryCharBufferSize"
 DefineFunction2 "" 1 2 false false true false true false true false false 1 "aNumChars"  {
 Push "Console"
@@ -1074,7 +1074,7 @@ Push "HandleEnterReturnKeys"
 GetMember
 PushDuplicate
 Not
-If loc1330
+If loc1362
 Pop
 Push 0 "Key"
 GetVariable
@@ -1083,7 +1083,7 @@ CallMethod
 Push 13
 Equals2
 PushDuplicate
-If loc1330
+If loc1362
 Pop
 Push 0 "Key"
 GetVariable
@@ -1091,37 +1091,37 @@ Push "getCode"
 CallMethod
 Push 108
 Equals2
-loc1330:Not
-If loc1349
+loc1362:Not
+If loc137b
 Push 0 register1 "RunCommandEntryText"
 CallMethod
 Pop
-Jump loc13aa
-loc1349:Push 0 "Key"
+Jump loc13dc
+loc137b:Push 0 "Key"
 GetVariable
 Push "getCode"
 CallMethod
 Push 33
 Equals2
 Not
-If loc137c
+If loc13ae
 Push 0 register1 "ScrollUp"
 CallMethod
 Pop
-Jump loc13aa
-loc137c:Push 0 "Key"
+Jump loc13dc
+loc13ae:Push 0 "Key"
 GetVariable
 Push "getCode"
 CallMethod
 Push 34
 Equals2
 Not
-If loc13aa
+If loc13dc
 Push 0 register1 "ScrollDown"
 CallMethod
 Pop
 }
-loc13aa:SetMember
+loc13dc:SetMember
 Push register2 "onResize"
 DefineFunction2 "" 0 2 false false true false true false false true false  {
 Push register1 "Background"
@@ -1204,11 +1204,11 @@ Push "scroll" register3 0
 Greater
 Not
 Not
-If loc1501
+If loc1533
 Push 0
-Jump loc1506
-loc1501:Push register3
-loc1506:SetMember
+Jump loc1538
+loc1533:Push register3
+loc1538:SetMember
 }
 SetMember
 Push register2 "ScrollDown"
@@ -1241,15 +1241,15 @@ Push "maxscroll"
 GetMember
 Greater
 Not
-If loc15a2
+If loc15d4
 Push register1 "CommandHistory"
 GetMember
 Push "maxscroll"
 GetMember
-Jump loc15ae
-loc15a2:Push "_loc2_"
+Jump loc15e0
+loc15d4:Push "_loc2_"
 GetVariable
-loc15ae:SetMember
+loc15e0:SetMember
 }
 SetMember
 Push register2 "RunCommandEntryText"
@@ -1264,7 +1264,7 @@ Push 0
 Equals2
 Not
 Not
-If loc168e
+If loc16c0
 Push register1 "Commands"
 GetMember
 Push "length"
@@ -1276,13 +1276,13 @@ GetMember
 Less2
 Not
 Not
-If loc161c
+If loc164e
 Push 0 register1 "Commands"
 GetMember
 Push "shift"
 CallMethod
 Pop
-loc161c:Push register1 "CommandEntry"
+loc164e:Push register1 "CommandEntry"
 GetMember
 Push "text"
 GetMember
@@ -1313,7 +1313,37 @@ Push 0 register1 "ResetCommandEntry"
 CallMethod
 Pop
 }
-loc168e:SetMember
+loc16c0:SetMember
+Push register2 "SetCommandEntryCursorPosition"
+DefineFunction2 "" 1 3 false false true false true false false true false 2 "posArray"  {
+Push register2 1
+GetMember
+Push register2 0
+GetMember
+Push 2 register1 "CommandEntry"
+GetMember
+Push "setSelection"
+CallMethod
+Pop
+}
+SetMember
+Push register2 "SetCommandEntryText"
+DefineFunction2 "" 1 3 false false true false true false false true false 2 "text"  {
+Push register1 "CommandEntry"
+GetMember
+Push "text" register2
+SetMember
+Push register2 "length"
+GetMember
+Push register2 "length"
+GetMember
+Push 2 register1 "CommandEntry"
+GetMember
+Push "setSelection"
+CallMethod
+Pop
+}
+SetMember
 Push register1 "PREVIOUS_COMMANDS" 32
 SetMember
 Push register1 "HistoryCharBufferSize" 8192
@@ -1333,4 +1363,4 @@ Push "prototype"
 GetMember
 Push 3 "ASSetPropFlags"
 CallFunction
-loc16f3:Pop
+loc17b9:Pop

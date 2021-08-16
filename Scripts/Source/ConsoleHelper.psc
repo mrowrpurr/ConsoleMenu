@@ -1,6 +1,14 @@
 scriptName ConsoleHelper hidden
 {Utility for working with the Skyrim ~ console menu}
 
+    ; TODO
+    ; ConsoleHelper.SetInstanceBool("CommandEntry.background", true)
+    ; ConsoleHelper.SetInstanceString("CommandEntry.backgroundColor", "0xff0000")
+
+    ; TODO
+    ; ConsoleHelper.SetInstanceBool("CommandEntry.border", true)
+    ; ConsoleHelper.SetInstanceString("CommandEntry.borderColor", "0xff0000")
+
 ; Gets the 'Console' menu name
 string function GetMenuName() global
     return "Console"
@@ -37,6 +45,11 @@ endFunction
 ; DOC
 function InvokeInstance(string functionName) global
     UI.Invoke(GetMenuName(), GetConsoleInstanceTarget(functionName))
+endFunction
+
+; DOC
+function InvokeInstanceString(string functionName, string value) global
+    UI.InvokeString(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
 endFunction
 
 ; DOC
@@ -179,7 +192,9 @@ endFunction
 
 ; DOC
 function SetCommandEntryText(string text) global
-    SetInstanceString("CommandEntry.text", text)
+    ; Use function if available (check via variable)
+    ; SetInstanceString("CommandEntry.text", text)
+    InvokeInstanceString("SetCommandEntryText", text)
 endFunction
 
 ; DOCS
