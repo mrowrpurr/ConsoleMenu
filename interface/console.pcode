@@ -1,0 +1,1334 @@
+ConstantPool "RunCommandEntryText" "ScrollUp" "ScrollDown" "ExecuteCommand" "_global" "Console" "gfxExtensions" "Shared" "GlobalFunc" "MaintainTextFormat" "ConsoleInstance" "Background" "CommandEntry" "CurrentSelection" "CurrentSelectionYOffset" "_height" "_y" "CommandHistory" "TextXOffset" "_x" "OriginalHeight" "Stage" "height" "OriginalWidth" "CustomCommandsEnabled" "" "width" "ScreenPercent" "PreviousCommandOffset" "Shown" "Animating" "Hiding" "getTextFormat" "setNewTextFormat" "text" "" "noTranslate" "align" "BL" "scaleMode" "noScale" "addListener" "Key" "onResize" "MovieClip" "prototype" "Show" "_parent" "show_anim" "gotoAndPlay" "Selection" "setFocus" "length" "setSelection" "ShowComplete" "Hide" "hide_anim" "ResetCommandEntry" "HideComplete" "gfx" "io" "GameDelegate" "call" "Minimize" "SetCurrentSelection" "QShown" "QHiding" "PreviousCommand" "Commands" "NextCommand" "AddHistory" "HistoryCharBufferSize" "substr" "scroll" "maxscroll" "ClearHistory" "SetHistoryCharBufferSize" "SetTextColor" "textColor" "SetTextSize" "getNewTextFormat" "size" "Math" "max" "setTextFormat" "PositionTextFields" "SetHistoryTextColor" "SetSize" "onKeyDown" "getCode" "PREVIOUS_COMMANDS" "shift" "push" "\n" "ExecuteCommand" "bottomScroll" "_width" "Array" "ASSetPropFlags"
+Push "_global"
+GetVariable
+Push "Console"
+GetMember
+Not
+Not
+If loc16d5
+Push "_global"
+GetVariable
+Push "Console"
+DefineFunction2 "" 0 4 false false false true true false false true true  {
+Push 0.0 register2 undefined
+CallMethod
+Pop
+Push register3 "gfxExtensions" true
+SetMember
+Push 0.0 "Shared"
+GetVariable
+Push "GlobalFunc"
+GetMember
+Push "MaintainTextFormat"
+CallMethod
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance" register1
+SetMember
+Push register1 "Background" register1 "Background"
+GetMember
+SetMember
+Push register1 "CommandEntry" register1 "CommandEntry"
+GetMember
+SetMember
+Push register1 "CurrentSelection" register1 "CurrentSelection"
+GetMember
+SetMember
+Push register1 "CurrentSelectionYOffset" register1 "_height"
+GetMember
+Push register1 "CurrentSelection"
+GetMember
+Push "_y"
+GetMember
+Add2
+SetMember
+Push register1 "CommandHistory" register1 "CommandHistory"
+GetMember
+SetMember
+Push register1 "TextXOffset" register1 "CommandEntry"
+GetMember
+Push "_x"
+GetMember
+SetMember
+Push register1 "OriginalHeight" "Stage"
+GetVariable
+Push "height"
+GetMember
+SetMember
+Push register1 "OriginalWidth" "Stage"
+GetVariable
+Push "width"
+GetMember
+SetMember
+Push register1 "ScreenPercent" 100 register1 "_height"
+GetMember
+Push "Stage"
+GetVariable
+Push "height"
+GetMember
+Divide
+Multiply
+SetMember
+Push register1 "PreviousCommandOffset" 0.0
+SetMember
+Push register1 "CustomCommandsEnabled" false
+SetMember
+Push register1 "Shown" false
+SetMember
+Push register1 "Animating" false
+SetMember
+Push register1 "Hiding" false
+SetMember
+Push 0.0 register1 "CommandEntry"
+GetMember
+Push "getTextFormat"
+CallMethod
+Push 1 register1 "CommandEntry"
+GetMember
+Push "setNewTextFormat"
+CallMethod
+Pop
+Push register1 "CommandEntry"
+GetMember
+Push "text" ""
+SetMember
+Push register1 "CommandEntry"
+GetMember
+Push "noTranslate" true
+SetMember
+Push 0.0 register1 "CurrentSelection"
+GetMember
+Push "getTextFormat"
+CallMethod
+Push 1 register1 "CurrentSelection"
+GetMember
+Push "setNewTextFormat"
+CallMethod
+Pop
+Push register1 "CurrentSelection"
+GetMember
+Push "text" ""
+SetMember
+Push register1 "CurrentSelection"
+GetMember
+Push "noTranslate" true
+SetMember
+Push 0.0 register1 "CommandHistory"
+GetMember
+Push "getTextFormat"
+CallMethod
+Push 1 register1 "CommandHistory"
+GetMember
+Push "setNewTextFormat"
+CallMethod
+Pop
+Push register1 "CommandHistory"
+GetMember
+Push "text" ""
+SetMember
+Push register1 "CommandHistory"
+GetMember
+Push "noTranslate" true
+SetMember
+Push "Stage"
+GetVariable
+Push "align" "BL"
+SetMember
+Push "Stage"
+GetVariable
+Push "scaleMode" "noScale"
+SetMember
+Push register1 1 "Stage"
+GetVariable
+Push "addListener"
+CallMethod
+Pop
+Push register1 1 "Key"
+GetVariable
+Push "addListener"
+CallMethod
+Pop
+Push 0.0 register1 "onResize"
+CallMethod
+Pop
+}
+StoreRegister 1
+SetMember
+Push "_global"
+GetVariable
+Push "Console"
+GetMember
+Push "MovieClip"
+GetVariable
+Extends
+Push register1 "prototype"
+GetMember
+StoreRegister 2
+Pop
+Push register1 "Show"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+PushDuplicate
+Not
+If loc070e
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating"
+GetMember
+Not
+loc070e:Not
+If loc07de
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "_parent"
+GetMember
+Push "_y" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "OriginalHeight"
+GetMember
+SetMember
+Push "show_anim" 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "_parent"
+GetMember
+Push "gotoAndPlay"
+CallMethod
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push 2 "Selection"
+GetVariable
+Push "setFocus"
+CallMethod
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating" true
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "length"
+GetMember
+Push 2 "Selection"
+GetVariable
+Push "setSelection"
+CallMethod
+Pop
+}
+loc07de:SetMember
+Push register1 "ShowComplete"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc082e
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Shown" true
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating" false
+SetMember
+}
+loc082e:SetMember
+Push register1 "Hide"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+PushDuplicate
+Not
+If loc086b
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating"
+GetMember
+Not
+loc086b:Not
+If loc08f1
+Push "hide_anim" 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "_parent"
+GetMember
+Push "gotoAndPlay"
+CallMethod
+Pop
+Push 0.0 null 2 "Selection"
+GetVariable
+Push "setFocus"
+CallMethod
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "ResetCommandEntry"
+CallMethod
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating" true
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Hiding" true
+SetMember
+}
+loc08f1:SetMember
+Push register1 "HideComplete"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc0982
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Shown" false
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating" false
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Hiding" false
+SetMember
+Push 0.0
+InitArray
+Push "HideComplete" 2 "gfx"
+GetVariable
+Push "io"
+GetMember
+Push "GameDelegate"
+GetMember
+Push "call"
+CallMethod
+Pop
+}
+loc0982:SetMember
+Push register1 "Minimize"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc09ea
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "_parent"
+GetMember
+Push "_y" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "OriginalHeight"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "_y"
+GetMember
+Subtract
+SetMember
+}
+loc09ea:SetMember
+Push register1 "SetCurrentSelection"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "selectionText"  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc0a3e
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelection"
+GetMember
+Push "text" register1
+SetMember
+}
+loc0a3e:SetMember
+Push register1 "QShown"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+PushDuplicate
+Not
+If loc0a7a
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Shown"
+GetMember
+loc0a7a:PushDuplicate
+Not
+If loc0a95
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Animating"
+GetMember
+Not
+loc0a95:Return
+}
+SetMember
+Push register1 "QHiding"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+PushDuplicate
+Not
+If loc0ad2
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Hiding"
+GetMember
+loc0ad2:Return
+}
+SetMember
+Push register1 "PreviousCommand"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc0c31
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "length"
+GetMember
+Less2
+Not
+If loc0b4e
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Increment
+SetMember
+loc0b4e:Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "length"
+GetMember
+Equals2
+Not
+PushDuplicate
+Not
+If loc0b96
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Equals2
+Not
+loc0b96:Not
+If loc0c31
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "text" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Subtract
+GetMember
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "length"
+GetMember
+Push 2 "Selection"
+GetVariable
+Push "setSelection"
+CallMethod
+Pop
+}
+loc0c31:SetMember
+Push register1 "NextCommand"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc0d7f
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Push 1
+Greater
+Not
+If loc0c9c
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Decrement
+SetMember
+loc0c9c:Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "length"
+GetMember
+Equals2
+Not
+PushDuplicate
+Not
+If loc0ce4
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Equals2
+Not
+loc0ce4:Not
+If loc0d7f
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "text" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Commands"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "PreviousCommandOffset"
+GetMember
+Subtract
+GetMember
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "length"
+GetMember
+Push 2 "Selection"
+GetVariable
+Push "setSelection"
+CallMethod
+Pop
+}
+loc0d7f:SetMember
+Push register1 "AddHistory"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "aText"  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc0e90
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "text" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "text"
+GetMember
+Push register1
+Add2
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "text"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "HistoryCharBufferSize"
+GetMember
+Greater
+Not
+If loc0e63
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "text" 0.0 "Console"
+GetVariable
+Push "HistoryCharBufferSize"
+GetMember
+Subtract
+Push 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "text"
+GetMember
+Push "substr"
+CallMethod
+SetMember
+loc0e63:Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "scroll" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "maxscroll"
+GetMember
+SetMember
+}
+loc0e90:SetMember
+Push register1 "ClearHistory"
+DefineFunction "" 0  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push null
+Equals2
+Not
+Not
+If loc0ed2
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "text" ""
+SetMember
+}
+loc0ed2:SetMember
+Push register1 "SetHistoryCharBufferSize"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "aNumChars"  {
+Push "Console"
+GetVariable
+Push "HistoryCharBufferSize" register1
+SetMember
+}
+SetMember
+Push register1 "SetTextColor"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "aColor"  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "textColor" register1
+SetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelection"
+GetMember
+Push "textColor" register1
+SetMember
+}
+SetMember
+Push register1 "SetTextSize"
+DefineFunction2 "" 1 3 false false true false true false true false false 2 "aPointSize"  {
+Push undefined
+StoreRegister 1
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelection"
+GetMember
+Push "getNewTextFormat"
+CallMethod
+StoreRegister 1
+Pop
+Push register1 "size" register2 1 2 "Math"
+GetVariable
+Push "max"
+CallMethod
+SetMember
+Push register1 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelection"
+GetMember
+Push "setTextFormat"
+CallMethod
+Pop
+Push register1 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelection"
+GetMember
+Push "setNewTextFormat"
+CallMethod
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "getNewTextFormat"
+CallMethod
+StoreRegister 1
+Pop
+Push register1 "size" register2 2
+Subtract
+Push 1 2 "Math"
+GetVariable
+Push "max"
+CallMethod
+SetMember
+Push register1 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "setTextFormat"
+CallMethod
+Pop
+Push register1 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "setNewTextFormat"
+CallMethod
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "getNewTextFormat"
+CallMethod
+StoreRegister 1
+Pop
+Push register1 "size" register2 1 2 "Math"
+GetVariable
+Push "max"
+CallMethod
+SetMember
+Push register1 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "setTextFormat"
+CallMethod
+Pop
+Push register1 1 "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "setNewTextFormat"
+CallMethod
+Pop
+Push 0.0 "Console"
+GetVariable
+Push "PositionTextFields"
+CallMethod
+Pop
+}
+SetMember
+Push register1 "SetHistoryTextColor"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "aColor"  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+Push "textColor" register1
+SetMember
+}
+SetMember
+Push register1 "SetSize"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "aPercent"  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "ScreenPercent" register1
+SetMember
+Push register1 100
+Divide
+StoreRegister 1
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Background"
+GetMember
+Push "_height" "Stage"
+GetVariable
+Push "height"
+GetMember
+Push register1
+Multiply
+SetMember
+Push 0.0 "Console"
+GetVariable
+Push "PositionTextFields"
+CallMethod
+Pop
+}
+SetMember
+Push register1 "PositionTextFields"
+DefineFunction2 "" 0 3 false false true false true false true false false  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelection"
+GetMember
+StoreRegister 2
+Pop
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandHistory"
+GetMember
+StoreRegister 1
+Pop
+Push register2 "_y" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CurrentSelectionYOffset"
+GetMember
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "Background"
+GetMember
+Push "_height"
+GetMember
+Subtract
+SetMember
+Push register1 "_y" register2 "_y"
+GetMember
+Push register2 "_height"
+GetMember
+Add2
+SetMember
+Push register1 "_height" "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CommandEntry"
+GetMember
+Push "_y"
+GetMember
+Push register1 "_y"
+GetMember
+Subtract
+SetMember
+}
+SetMember
+Push register2 "ResetCommandEntry"
+DefineFunction2 "" 0 2 false false true false true false false true false  {
+Push register1 "CommandEntry"
+GetMember
+Push "text" ""
+SetMember
+Push register1 "PreviousCommandOffset" 0.0
+SetMember
+}
+SetMember
+Push register2 "onKeyDown"
+DefineFunction2 "" 0 2 false false true false true false false true false  {
+Push "Console"
+GetVariable
+Push "ConsoleInstance"
+GetMember
+Push "CustomCommandsEnabled"
+GetMember
+Not
+If loc12e1
+Push undefined
+Return
+loc12e1:Push 0 "Key"
+GetVariable
+Push "getCode"
+CallMethod
+Push 13
+Equals2
+PushDuplicate
+If loc131c
+Pop
+Push 0 "Key"
+GetVariable
+Push "getCode"
+CallMethod
+Push 108
+Equals2
+loc131c:Not
+If loc1335
+Push 0 register1 "RunCommandEntryText"
+CallMethod
+Pop
+Jump loc1396
+loc1335:Push 0 "Key"
+GetVariable
+Push "getCode"
+CallMethod
+Push 33
+Equals2
+Not
+If loc1368
+Push 0 register1 "ScrollUp"
+CallMethod
+Pop
+Jump loc1396
+loc1368:Push 0 "Key"
+GetVariable
+Push "getCode"
+CallMethod
+Push 34
+Equals2
+Not
+If loc1396
+Push 0 register1 "ScrollDown"
+CallMethod
+Pop
+}
+loc1396:SetMember
+Push register2 "onResize"
+DefineFunction2 "" 0 2 false false true false true false false true false  {
+Push register1 "Background"
+GetMember
+Push "_width" "Stage"
+GetVariable
+Push "width"
+GetMember
+SetMember
+Push register1 "CommandEntry"
+GetMember
+Push "_width" register1 "CommandHistory"
+GetMember
+Push "_width" register1 "CurrentSelection"
+GetMember
+Push "_width" "Stage"
+GetVariable
+Push "width"
+GetMember
+Push register1 "TextXOffset"
+GetMember
+Push 2
+Multiply
+Subtract
+StoreRegister 0
+SetMember
+Push register0
+StoreRegister 0
+SetMember
+Push register0
+SetMember
+Push register1 "ScreenPercent"
+GetMember
+Push 1 "Console"
+GetVariable
+Push "SetSize"
+CallMethod
+Pop
+}
+SetMember
+Push register2 "ExecuteCommand"
+DefineFunction2 "" 1 2 false false true false true false true false false 1 "commandText"  {
+Push register1 1
+InitArray
+Push "ExecuteCommand" 2 "gfx"
+GetVariable
+Push "io"
+GetMember
+Push "GameDelegate"
+GetMember
+Push "call"
+CallMethod
+Pop
+}
+SetMember
+Push register2 "ScrollUp"
+DefineFunction2 "" 0 4 false false true false true false false true false  {
+Push register1 "CommandHistory"
+GetMember
+Push "bottomScroll"
+GetMember
+Push register1 "CommandHistory"
+GetMember
+Push "scroll"
+GetMember
+Subtract
+StoreRegister 2
+Pop
+Push register1 "CommandHistory"
+GetMember
+Push "scroll"
+GetMember
+Push register2
+Subtract
+StoreRegister 3
+Pop
+Push register1 "CommandHistory"
+GetMember
+Push "scroll" register3 0
+Greater
+Not
+Not
+If loc14ed
+Push 0
+Jump loc14f2
+loc14ed:Push register3
+loc14f2:SetMember
+}
+SetMember
+Push register2 "ScrollDown"
+DefineFunction2 "" 0 2 false false true false true false false true false  {
+Push "_loc1_" register1 "CommandHistory"
+GetMember
+Push "bottomScroll"
+GetMember
+Push register1 "CommandHistory"
+GetMember
+Push "scroll"
+GetMember
+Subtract
+SetVariable
+Push "_loc2_" register1 "CommandHistory"
+GetMember
+Push "scroll"
+GetMember
+Push "_loc1_"
+GetVariable
+Add2
+SetVariable
+Push register1 "CommandHistory"
+GetMember
+Push "scroll" "_loc2_"
+GetVariable
+Push register1 "CommandHistory"
+GetMember
+Push "maxscroll"
+GetMember
+Greater
+Not
+If loc158e
+Push register1 "CommandHistory"
+GetMember
+Push "maxscroll"
+GetMember
+Jump loc159a
+loc158e:Push "_loc2_"
+GetVariable
+loc159a:SetMember
+}
+SetMember
+Push register2 "RunCommandEntryText"
+DefineFunction2 "" 0 2 false false true false true false false true false  {
+Push register1 "CommandEntry"
+GetMember
+Push "text"
+GetMember
+Push "length"
+GetMember
+Push 0
+Equals2
+Not
+Not
+If loc167a
+Push register1 "Commands"
+GetMember
+Push "length"
+GetMember
+Push "Console"
+GetVariable
+Push "PREVIOUS_COMMANDS"
+GetMember
+Less2
+Not
+Not
+If loc1608
+Push 0 register1 "Commands"
+GetMember
+Push "shift"
+CallMethod
+Pop
+loc1608:Push register1 "CommandEntry"
+GetMember
+Push "text"
+GetMember
+Push 1 register1 "Commands"
+GetMember
+Push "push"
+CallMethod
+Pop
+Push register1 "CommandEntry"
+GetMember
+Push "text"
+GetMember
+Push "\n"
+Add2
+Push 1 "Console"
+GetVariable
+Push "AddHistory"
+CallMethod
+Pop
+Push register1 "CommandEntry"
+GetMember
+Push "text"
+GetMember
+Push 1 register1 "ExecuteCommand"
+CallMethod
+Pop
+Push 0 register1 "ResetCommandEntry"
+CallMethod
+Pop
+}
+loc167a:SetMember
+Push register1 "PREVIOUS_COMMANDS" 32
+SetMember
+Push register1 "HistoryCharBufferSize" 8192
+SetMember
+Push register1 "ConsoleInstance" null
+SetMember
+Push register2 "Commands" 0.0 "Array"
+NewObject
+SetMember
+Push 1 null "_global"
+GetVariable
+Push "Console"
+GetMember
+Push "prototype"
+GetMember
+Push 3 "ASSetPropFlags"
+CallFunction
+loc16d5:Pop
