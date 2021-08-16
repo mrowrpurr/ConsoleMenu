@@ -35,8 +35,14 @@ function InvokeString(string functionName, string str) global
 endFunction
 
 ; DOC
-; function InvokeInstance(string str) global
-; endFunction
+function InvokeInstance(string functionName) global
+    UI.Invoke(GetMenuName(), GetConsoleInstanceTarget(functionName))
+endFunction
+
+; DOC
+function InvokeInstanceIntArray(string functionName, int[] values) global
+    UI.InvokeIntA(GetMenuName(), GetConsoleInstanceTarget(functionName), values)
+endFunction
 
 ; DOC
 string function GetString(string target) global
