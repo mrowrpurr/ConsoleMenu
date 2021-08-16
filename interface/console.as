@@ -21,7 +21,7 @@ class Console extends MovieClip
       this.OriginalWidth = Stage.width;
       this.ScreenPercent = 100 * (this._height / Stage.height);
       this.PreviousCommandOffset = 0;
-      this.CustomCommandsEnabled = false;
+      this.HandleEnterReturnKeys = true;
       this.Shown = false;
       this.Animating = false;
       this.Hiding = false;
@@ -203,11 +203,7 @@ class Console extends MovieClip
    }
    function onKeyDown()
    {
-      if(Console.ConsoleInstance.CustomCommandsEnabled)
-      {
-         return undefined;
-      }
-      if(Key.getCode() == 13 || Key.getCode() == 108)
+      if(Console.ConsoleInstance.HandleEnterReturnKeys && (Key.getCode() == 13 || Key.getCode() == 108))
       {
          this.RunCommandEntryText();
       }
