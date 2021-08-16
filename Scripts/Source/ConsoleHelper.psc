@@ -15,6 +15,11 @@ string function GetMenuName() global
 endFunction
 
 ; DOC
+float function GetCurrentVersion() global
+    return 1.0
+endFunction
+
+; DOC
 string function GetConsoleTarget(string suffix = "") global
     if suffix
         return "_global.Console." + suffix
