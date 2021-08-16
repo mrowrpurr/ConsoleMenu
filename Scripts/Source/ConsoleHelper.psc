@@ -25,6 +25,20 @@ string function GetConsoleInstanceTarget(string suffix = "") global
 endFunction
 
 ; DOC
+function Invoke(string functionName) global
+    UI.Invoke(GetMenuName(), GetConsoleTarget(functionName))
+endFunction
+
+; DOC
+function InvokeString(string functionName, string str) global
+    UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), str)
+endFunction
+
+; DOC
+; function InvokeInstance(string str) global
+; endFunction
+
+; DOC
 string function GetString(string target) global
     return UI.GetString(GetMenuName(), GetConsoleTarget(target))
 endFunction
@@ -42,6 +56,46 @@ endFunction
 ; DOC
 function SetInstanceString(string target, string value) global
     UI.SetString(GetMenuName(), GetConsoleInstanceTarget(target), value)
+endFunction
+
+; DOC
+bool function GetBool(string target) global
+    return UI.GetBool(GetMenuName(), GetConsoleTarget(target))
+endFunction
+
+; DOC
+function SetBool(string target, bool value) global
+    UI.SetBool(GetMenuName(), GetConsoleTarget(target), value)
+endFunction
+
+; DOC
+bool function GetInstanceBool(string target) global
+    return UI.GetBool(GetMenuName(), GetConsoleInstanceTarget(target))
+endFunction
+
+; DOC
+function SetInstanceBool(string target, bool value) global
+    UI.SetBool(GetMenuName(), GetConsoleInstanceTarget(target), value)
+endFunction
+
+; DOC
+int function GetInt(string target) global
+    return UI.GetInt(GetMenuName(), GetConsoleTarget(target))
+endFunction
+
+; DOC
+function SetInt(string target, int value) global
+    UI.SetInt(GetMenuName(), GetConsoleTarget(target), value)
+endFunction
+
+; DOC
+int function GetInstanceInt(string target) global
+    return UI.GetInt(GetMenuName(), GetConsoleInstanceTarget(target))
+endFunction
+
+; DOC
+function SetInstanceInt(string target, int value) global
+    UI.SetInt(GetMenuName(), GetConsoleInstanceTarget(target), value)
 endFunction
 
 ; DOC
@@ -69,6 +123,16 @@ string function GetHeaderText() global
 endFunction
 
 ; DOC
+function SetHeaderTextColor(string hexColorWithHash) global
+    ;
+    SetInstanceString("CurrentSelection.textColor", hexColorWithHash)
+    ;
+endFunction
+
+; DOC
+; ResetHeaderTextColor
+
+; DOC
 string function GetCommandHistoryText() global
     return GetInstanceString("CommandHistory.text")
 endFunction
@@ -76,7 +140,7 @@ endFunction
 ; DOC
 function SetCommandHistoryText(string text) global
     SetInstanceString("CommandHistory.text", text)
-    SetInstanceString("CommandHistory.text", text) ; XXX works most consistently when set twice :shrug:
+    ; SetInstanceString("CommandHistory.text", text) ; XXX works most consistently when set twice :shrug:
 endFunction
 
 ; DOCS
@@ -114,9 +178,99 @@ string function GetInputText() global
     return GetCommandHistoryText()
 endFunction
 
+; DOC
+bool function IsShown() global
+    return GetInstanceBool("Shown")
+endFunction
+
+; Alias for IsShown()
+bool function IsOpen() global
+    IsShown()
+endFunction
+
+; DOC
+bool function IsMinimized() global
+    Debug.Notification("Does " + GetHeight() + " equal " + GetOriginalHeight() + " minus " + GetCommandHistoryHeight() + " ??? " + (GetOriginalHeight() - GetCommandHistoryHeight()))
+    bool result = GetHeight() == (GetOriginalHeight() - GetCommandHistoryHeight())
+    Debug.Notification("Minimized: " + result)
+    return result
+    return GetHeight() == (GetOriginalHeight() - GetCommandHistoryHeight())
+endFunction
+
 ; Opens the Skyrim ~ console menu
-function Open() global
-    ; Conside setting the Body Text in here / OnMenuOpen ...
-    int openCloseConsoleKey = Input.GetMappedKey("Console")
-    Input.TapKey(openCloseConsoleKey)
+function Open(bool force = false) global
+    if force || ! IsShown() || IsMinimized()
+        if IsMinimized()
+            Restore()
+        else
+            int openCloseConsoleKey = Input.GetMappedKey("Console")
+            Input.TapKey(openCloseConsoleKey)
+        endIf
+    endIf
+endFunction
+
+; Alias for Open()
+function Show(bool force = false) global
+    Open(force)
+endFunction
+
+; Alias for Hide()
+function Close(bool force = false) global
+    Hide(force)
+endFunction
+
+; DOCHide
+function Hide(bool force = false) global
+    if force || IsShown()
+        Invoke("Hide")
+    endIf
+endFunction
+
+; DOC Minimize
+function Minimize(bool force = false) global
+    if force || IsShown()
+        Invoke("Minimize")
+    endIf
+endFunction
+
+function Restore(bool force = true) global
+    if force || IsMinimized()
+        SetHeight(GetOriginalHeight())
+    endIf
+endFunction
+
+; DOC
+function SetHeight(int height) global ; Maybe rename to ParentHeight or I dunno yet.
+    SetInstanceInt("_parent._y", height)
+endFunction
+
+; DOC
+int function GetHeight() global
+    return GetInstanceInt("_parent._y")
+endFunction
+
+; DOC
+int function GetOriginalHeight() global
+    return GetInstanceInt("OriginalHeight")
+endFunction
+
+; DOC
+int function GetCommandHistoryHeight() global
+    return GetInstanceInt("CommandHistory._y")
+endFunction
+
+; DOC
+function AddHistory(string text) global
+    InvokeString("AddHistory", text)
+endFunction
+
+; DOC
+function AddHistoryLine(string text) global
+    AddHistory(text + "\n")
+endFunction
+
+; DOC
+; Alias AddHistory
+function Print(string text) global
+    AddHistoryLine(text)
 endFunction
