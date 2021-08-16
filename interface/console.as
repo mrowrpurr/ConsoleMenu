@@ -3,6 +3,7 @@ class Console extends MovieClip
    static var PREVIOUS_COMMANDS = 32;
    static var HistoryCharBufferSize = 8192;
    static var ConsoleInstance = null;
+   static var IsConsoleHelperConsole = true;
    var Commands = new Array();
    function Console()
    {
