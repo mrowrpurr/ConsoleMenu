@@ -1,6 +1,9 @@
 scriptName ConsoleHelper hidden
 {Utility for working with the Skyrim ~ console menu}
 
+; Implement the 10 invoke functions for Instance and for Console (20x)
+; Implement the 10 Get/Set functions for the Instance and for Console (20x)
+
     ; TODO
     ; ConsoleHelper.SetInstanceBool("CommandEntry.background", true)
     ; ConsoleHelper.SetInstanceString("CommandEntry.backgroundColor", "0xff0000")
@@ -14,12 +17,12 @@ string function GetMenuName() global
     return "Console"
 endFunction
 
-; DOC
-float function GetCurrentVersion() global
+; Returns the version of the ConsoleHelper mod
+float function GetConsoleHelperVersion() global
     return 1.0
 endFunction
 
-; DOC
+; Returns target string for use by the UI script under the Console menu's namespace
 string function GetConsoleTarget(string suffix = "") global
     if suffix
         return "_global.Console." + suffix
@@ -28,7 +31,7 @@ string function GetConsoleTarget(string suffix = "") global
     endIf
 endFunction
 
-; DOC
+; Returns target string for use by the UI script under the namespace for the current Console instance
 string function GetConsoleInstanceTarget(string suffix = "") global
     if suffix
         return GetConsoleTarget("ConsoleInstance." + suffix)
@@ -37,7 +40,7 @@ string function GetConsoleInstanceTarget(string suffix = "") global
     endIf
 endFunction
 
-; DOC
+; Invoke an ActionScript function on the Console
 function Invoke(string functionName) global
     UI.Invoke(GetMenuName(), GetConsoleTarget(functionName))
 endFunction
@@ -47,7 +50,7 @@ function InvokeString(string functionName, string str) global
     UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), str)
 endFunction
 
-; DOC
+; Invoke an ActionScript function on the current Console instance
 function InvokeInstance(string functionName) global
     UI.Invoke(GetMenuName(), GetConsoleInstanceTarget(functionName))
 endFunction
@@ -303,6 +306,7 @@ function SetHeight(int height) global ; Maybe rename to ParentHeight or I dunno 
 endFunction
 
 ; DOC
+; TODO Change this to something like GetYPosition()
 int function GetHeight() global
     return GetInstanceInt("_parent._y")
 endFunction
@@ -317,22 +321,76 @@ int function GetCommandHistoryHeight() global
     return GetInstanceInt("CommandHistory._y")
 endFunction
 
-; DOC
+; Add text to the history
+; Note: this is not automatically followed by a newline
+;       for that, use AddHistoryLine() or Print()
 function AddHistory(string text) global
     InvokeString("AddHistory", text)
 endFunction
 
-; DOC
+; Add text to the history followed by a newline
 function AddHistoryLine(string text) global
     AddHistory(text + "\n")
 endFunction
 
-; DOC
-; Alias AddHistory
+; Prints to the console
+; Alias for AddHistoryline()
 function Print(string text) global
     AddHistoryLine(text)
 endFunction
 
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; Disables the native console's handling of the Enter and Return keys
+function DisableNativeEnterReturnKeyHandling() global
+    if __consoleHelper__.GetIsConsoleHelperConsoleInstalled()
+        SetInstanceBool("HandleEnterReturnKeys", false)
+    else
+        __consoleHelper__.LogCustomSwfRequiredError("DisableNativeEnterReturnKeyHandling")
+    endIf
+endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; Enables the native console's handling of the Enter and Return keys
+function EnableNativeEnterReturnKeyHandling() global
+    if __consoleHelper__.GetIsConsoleHelperConsoleInstalled()
+        SetInstanceBool("HandleEnterReturnKeys", true)
+    else
+        __consoleHelper__.LogCustomSwfRequiredError("EnableNativeEnterReturnKeyHandling")
+    endIf
+endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; This will send an SKSE ModEvent to the caller using the callbackFn provided
+; whenever the [Enter] or [Return] key is pressed, sending along the text of
+; the command that is intended to be run.
+;
+; This will automatically clear the text input and add the command to the
+; command history.
+;
+; Automatically disables handling of [Enter] and [Return] key by the console.swf
+; via DisableNativeEnterReturnKeyHandling()
+;
+; Use UnregisterForCustomCommands() to stop listening for custom commands.
+; Once the last listener has unregistered, the console.swf built-in command handling
+; is re-enabled via EnableNativeEnterReturnKeyHandling()
+;
+; Note: when this is in-use, no console commands will be executed.
+; You can process the commands however you wish.
+; Use ExecuteCommand() if you'd like to run the command using the native command execution.
+function RegisterForCustomCommands(string callbackFn)
+
+endFunction
+
+; Returns color in Flash compatible string hex format: "0xff00ff"
+; Supports a variety of different inputs:
+; - "0xff00ff"
+; - "#ff00ff"
+; - "Light Gray"
+; - "Red"
+; - Any of the 140 color names supported by HTML/Web browsers
 string function GetColor(string color) global
     ; If it starts with "0x" then return it directly
     if StringUtil.Find(color, "0x") == 0

@@ -4,9 +4,19 @@ scriptName __consoleHelper__ extends Quest
 ; Stores the currently installed version of ConsoleHelper
 float property CurrentlyInstalledVersion auto
 
+; Adds to the Papyrus logs with the prefix [ConsoleHelper]
+function Log(string text) global
+    Debug.Trace("[ConsoleHelper] " + text)
+endFunction
+
+function LogCustomSwfRequiredError(string functionName) global
+    Log(functionName + " could not be called. Requires ConsoleHelper's custom console.swf which is not currently installed. Note: it should be build-in to the primary distributed ConsoleHelper mod.")
+endFunction
+
 event OnInit()
     ; Set the currently installed version of this mod on first-time mod initialization
-    CurrentlyInstalledVersion = ConsoleHelper.GetCurrentVersion()
+    CurrentlyInstalledVersion = ConsoleHelper.GetConsoleHelperVersion()
+    ResetInstallationChecksCache()
 endEvent
 
 ; Helper to get an instance of __consoleHelper__ for use in the public ConsoleHelper interface
@@ -19,7 +29,20 @@ bool function GetIsConsoleHelperConsoleInstalled() global
     return GetInstance().IsConsoleHelperConsoleInstalled
 endFunction
 
-int __isConsoleHelperConsoleInstalled = -1 ; -1 means that we have not checked yet
+; Reset the caches of whether various things are installed
+; Reset on original mod installation and then on player load game events
+function ResetInstallationChecksCache()
+    __isConsoleHelperConsoleInstalled = -1
+    __isConsoleUtilInstalled = -1
+endFunction
+
+; Cache of whether the ConsoleHelper custom console.swf is installed
+int property __isConsoleHelperConsoleInstalled auto
+
+; Cache of whether ConsoleUtil is installed
+; Provides PrintMessage and ExecuteCommand (in case our custom console is not available)
+; Check via ConsoleUtil.GetVersion()
+int property __isConsoleUtilInstalled auto
 
 ; Property which is true if the currently console.swf used by the game is our customized version for ConsoleHelper
 bool property IsConsoleHelperConsoleInstalled
@@ -33,5 +56,20 @@ bool property IsConsoleHelperConsoleInstalled
             endIf
         endIf
         return __isConsoleHelperConsoleInstalled == 1
+    endFunction
+endProperty
+
+; Property which is true if ConsoleUtil is installed
+bool property IsConsoleUtilInstalled
+    bool function get()
+        if __isConsoleUtilInstalled == -1
+            int consoleUtilVersion = ConsoleUtil.GetVersion()
+            if consoleUtilVersion == 0
+                __isConsoleUtilInstalled = 0
+            else
+                __isConsoleUtilInstalled = 1
+            endIf
+        endIf
+        return __isConsoleUtilInstalled == 1
     endFunction
 endProperty
