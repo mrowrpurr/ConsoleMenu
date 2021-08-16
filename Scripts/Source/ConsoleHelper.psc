@@ -210,6 +210,13 @@ function SetCommandEntryText(string text) global
     InvokeInstanceString("SetCommandEntryText", text)
 endFunction
 
+; DOC
+string function GetAndClearCommandEntryText() global
+    string text = GetCommandEntryText()
+    SetCommandEntryText("")
+    return text
+endFunction
+
 ; DOCS
 ; Alias for CommandEntry
 function SetInputText(string text) global
@@ -220,6 +227,11 @@ endFunction
 ; Alias for CommandEntry
 string function GetInputText() global
     return GetCommandHistoryText()
+endFunction
+
+; Alias for GetAndClearCommandEntryText
+string function GetAndClearInputText() global
+    return GetAndClearCommandEntryText()
 endFunction
 
 ; DOC
@@ -380,8 +392,22 @@ endFunction
 ; Note: when this is in-use, no console commands will be executed.
 ; You can process the commands however you wish.
 ; Use ExecuteCommand() if you'd like to run the command using the native command execution.
-function RegisterForCustomCommands(string callbackFn)
+function RegisterForCustomCommands(string eventName) global
+    __consoleHelper__.GetInstance().RegisterForCustomCommands(eventName)
+endFunction
 
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; See RegisterForCustomCommands() for documentation.
+function UnregisterForCustomCommands(string eventName) global
+    __consoleHelper__.GetInstance().UnregisterForCustomCommands(eventName)
+endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; Delegates the provided command to the default command runner used in the Console
+function ExecuteCommand(string command) global
+    InvokeInstanceString("ExecuteCommand", command)
 endFunction
 
 ; Returns color in Flash compatible string hex format: "0xff00ff"
