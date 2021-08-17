@@ -394,17 +394,17 @@ endFunction
 
 ; DOC
 function HideBackground() global
-    SetInstanceBool("Background.visible", false)
+    SetInstanceBool("Background._visible", false)
 endFunction
 
 ; DOC
 function ShowBackground() global
-    SetInstanceBool("Background.visible", true)
+    SetInstanceBool("Background._visible", true)
 endFunction
 
 ; DOC
 function ToggleBackground() global
-    if GetInstanceBool("Background.visible")
+    if GetInstanceBool("Background._visible")
         HideBackground()
     else
         ShowBackground()
