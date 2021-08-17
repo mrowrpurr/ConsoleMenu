@@ -81,7 +81,7 @@ endFunction
 ;; ~ Get/Set/Clear Text ~
 ;; ~ Text Size ~
 ;; ~ Text Color ~
-;; ~ Text Opacity ~
+;; ~ Opacity ~
 ;; ~ Background Color ~
 ;; ~ Background Opacity ~
 ;; ~ Border Color ~
@@ -156,7 +156,7 @@ endFunction
 
 ;; ~ Text Color ~
 
-;; ~ Text Opacity ~
+;; ~ Opacity ~
 
 ;; ~ Background Color ~
 
@@ -224,34 +224,34 @@ function SetHeaderTextColor(string color) global
     UI.SetString(GetMenuName(), GetHeaderTarget("textColor"), GetColor(color))
 endFunction
 int function GetHeaderTextColorInt() global
-
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("textColor"))
 endFunction
 
-;; ~ Text Opacity ~
+;; ~ Opacity ~
 
 function SetHeaderOpacity(int opacity) global
-
+    UI.SetInt(GetMenuName(), GetHeaderTarget("_alpha"), opacity)
 endFunction
 int function GetHeaderOpacity() global
-
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("_alpha"))
 endFunction
 
 ;; ~ Background ~
 
 function ShowHeaderBackground() global
-
+    UI.SetBool(GetMenuName(), GetHeaderTarget("background"), true)
 endFunction
 function HideHeaderBackground() global
-
+    UI.SetBool(GetMenuName(), GetHeaderTarget("background"), false)
 endFunction
 bool function IsHeaderBackgroundVisible() global
-
+    return UI.GetBool(GetMenuName(), GetHeaderTarget("background"))
 endFunction
 function SetHeaderBackgroundVisible(bool value) global
-
+    UI.SetBool(GetMenuName(), GetHeaderTarget("background"), value)
 endFunction
 function ToggleHeaderBackground() global
-
+    SetHeaderBackgroundVisible(! IsHeaderVisible())
 endFunction
 
 ;; ~ Background Color ~
@@ -263,34 +263,37 @@ function SetHeaderBackgroundColor(string color, bool enableBackground = true) gl
     UI.SetString(GetMenuName(), GetHeaderTarget("backgroundColor"), GetColor(color))
 endFunction
 int function GetHeaderBackgroundColorInt() global
-
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("backgroundColor"))
 endFunction
 
 ;; ~ Border ~
 
 function ShowHeaderBorder() global
-
+    UI.SetBool(GetMenuName(), GetHeaderTarget("border"), true)
 endFunction
 function HideHeaderBorder() global
-
+    UI.SetBool(GetMenuName(), GetHeaderTarget("border"), false)
 endFunction
 bool function IsHeaderBorderVisible() global
-
+    return UI.GetBool(GetMenuName(), GetHeaderTarget("border"))
 endFunction
 function SetHeaderBorderVisible(bool value) global
-
+    UI.SetBool(GetMenuName(), GetHeaderTarget("border"), value)
 endFunction
 function ToggleHeaderBorder() global
-
+    SetHeaderBorderVisible(! IsHeaderVisible())
 endFunction
 
 ;; ~ Border Color ~
 
 function SetHeaderBorderColor(string color, bool enableBorder = true) global
-
+    if enableBorder
+        ShowHeaderBorder()
+    endIf
+    UI.SetString(GetMenuName(), GetHeaderTarget("borderColor"), GetColor(color))
 endFunction
 int function GetHeaderBorderColorInt() global
-
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("borderColor"))
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -308,7 +311,120 @@ string function GetBodyTarget(string suffix = "") global
     endIf
 endFunction
 
+;; ~ Show/Hide/Toggle ~
 
+function ShowBody() global
+    return UI.SetBool(GetMenuName(), GetBodyTarget("_visible"), true)
+endFunction
+function HideBody() global
+    return UI.SetBool(GetMenuName(), GetBodyTarget("_visible"), false)
+endFunction
+bool function IsBodyVisible() global
+    return UI.GetBool(GetMenuName(), GetBodyTarget("_visible"))
+endFunction
+function SetBodyVisible(bool value) global
+    UI.SetBool(GetMenuName(), GetBodyTarget("_visible"), value)
+endFunction
+function ToggleBody() global
+    UI.SetBool(GetMenuName(), GetBodyTarget("_visible"), ! IsBodyVisible())
+endFunction
+
+;; ~ Get/Set/Clear Text ~
+
+string function GetBodyText() global
+    return UI.GetString(GetMenuName(), GetBodyTarget("text"))
+endFunction
+function SetBodyText(string value) global
+    UI.SetString(GetMenuName(), GetBodyTarget("text"), value)
+endFunction
+function ClearBodyText() global
+    SetBodyText("")
+endFunction
+
+;; ~ Text Size ~
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+function SetBodyTextSize(int pointSize) global
+    UI.InvokeInt(GetMenuName(), GetTarget("SetCurrentSelectionTextSize"), pointSize)
+endFunction
+
+;; ~ Text Color ~
+
+function SetBodyTextColor(string color) global
+    UI.SetString(GetMenuName(), GetBodyTarget("textColor"), GetColor(color))
+endFunction
+int function GetBodyTextColorInt() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("textColor"))
+endFunction
+
+;; ~ Opacity ~
+
+function SetBodyOpacity(int opacity) global
+    UI.SetInt(GetMenuName(), GetBodyTarget("_alpha"), opacity)
+endFunction
+int function GetBodyOpacity() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("_alpha"))
+endFunction
+
+;; ~ Background ~
+
+function ShowBodyBackground() global
+    UI.SetBool(GetMenuName(), GetBodyTarget("background"), true)
+endFunction
+function HideBodyBackground() global
+    UI.SetBool(GetMenuName(), GetBodyTarget("background"), false)
+endFunction
+bool function IsBodyBackgroundVisible() global
+    return UI.GetBool(GetMenuName(), GetBodyTarget("background"))
+endFunction
+function SetBodyBackgroundVisible(bool value) global
+    UI.SetBool(GetMenuName(), GetBodyTarget("background"), value)
+endFunction
+function ToggleBodyBackground() global
+    SetBodyBackgroundVisible(! IsBodyVisible())
+endFunction
+
+;; ~ Background Color ~
+
+function SetBodyBackgroundColor(string color, bool enableBackground = true) global
+    if enableBackground
+        ShowBodyBackground()
+    endIf
+    UI.SetString(GetMenuName(), GetBodyTarget("backgroundColor"), GetColor(color))
+endFunction
+int function GetBodyBackgroundColorInt() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("backgroundColor"))
+endFunction
+
+;; ~ Border ~
+
+function ShowBodyBorder() global
+    UI.SetBool(GetMenuName(), GetBodyTarget("border"), true)
+endFunction
+function HideBodyBorder() global
+    UI.SetBool(GetMenuName(), GetBodyTarget("border"), false)
+endFunction
+bool function IsBodyBorderVisible() global
+    return UI.GetBool(GetMenuName(), GetBodyTarget("border"))
+endFunction
+function SetBodyBorderVisible(bool value) global
+    UI.SetBool(GetMenuName(), GetBodyTarget("border"), value)
+endFunction
+function ToggleBodyBorder() global
+    SetBodyBorderVisible(! IsBodyVisible())
+endFunction
+
+;; ~ Border Color ~
+
+function SetBodyBorderColor(string color, bool enableBorder = true) global
+    if enableBorder
+        ShowBodyBorder()
+    endIf
+    UI.SetString(GetMenuName(), GetBodyTarget("borderColor"), GetColor(color))
+endFunction
+int function GetBodyBorderColorInt() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("borderColor"))
+endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Command Entry aka "Text Input" TextInput Functions
@@ -325,21 +441,129 @@ string function GetTextInputTarget(string suffix = "") global
     endIf
 endFunction
 
-; ; DOC
-; function SetCommandEntryText(string text) global
-;     ; Use function if available (check via variable)
-;     ; SetInstanceString("CommandEntry.text", text)
-;     InvokeInstanceString("SetCommandEntryText", text) <--- use this to set it.
-; endFunction
+;; ~ Show/Hide/Toggle ~
 
-; DOC
+function ShowTextInput() global
+    return UI.SetBool(GetMenuName(), GetTextInputTarget("_visible"), true)
+endFunction
+function HideTextInput() global
+    return UI.SetBool(GetMenuName(), GetTextInputTarget("_visible"), false)
+endFunction
+bool function IsTextInputVisible() global
+    return UI.GetBool(GetMenuName(), GetTextInputTarget("_visible"))
+endFunction
+function SetTextInputVisible(bool value) global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("_visible"), value)
+endFunction
+function ToggleTextInput() global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("_visible"), ! IsTextInputVisible())
+endFunction
+
+;; ~ Get/Set/Clear Text ~
+
+string function GetTextInputText() global
+    return UI.GetString(GetMenuName(), GetTextInputTarget("text"))
+endFunction
+function SetTextInputText(string value) global
+    if IsConsoleHelperConsoleInstalled()
+        UI.InvokeString(GetMenuName(), GetInstanceTarget("SetCommandEntryText"), value)
+    else
+        UI.SetString(GetMenuName(), GetTextInputTarget("text"), value)
+    endIf
+endFunction
+function ClearTextInputText() global
+    SetTextInputText("")
+endFunction
 string function GetAndClearInputText() global
-    string text = UI.GetString(GetMenuName(), GetTextInputTarget("text"))
-    Debug.Notification(GetTextInputTarget("text") + " = " + text)
-    UI.SetString(GetMenuName(), GetTextInputTarget("text"), "")
+    string text = GetTextInputText()
+    SetTextInputText("")
     return text
 endFunction
 
+;; ~ Text Size ~
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+function SetTextInputTextSize(int pointSize) global
+    UI.InvokeInt(GetMenuName(), GetTarget("SetCurrentSelectionTextSize"), pointSize)
+endFunction
+
+;; ~ Text Color ~
+
+function SetTextInputTextColor(string color) global
+    UI.SetString(GetMenuName(), GetTextInputTarget("textColor"), GetColor(color))
+endFunction
+int function GetTextInputTextColorInt() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("textColor"))
+endFunction
+
+;; ~ Opacity ~
+
+function SetTextInputOpacity(int opacity) global
+    UI.SetInt(GetMenuName(), GetTextInputTarget("_alpha"), opacity)
+endFunction
+int function GetTextInputOpacity() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("_alpha"))
+endFunction
+
+;; ~ Background ~
+
+function ShowTextInputBackground() global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("background"), true)
+endFunction
+function HideTextInputBackground() global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("background"), false)
+endFunction
+bool function IsTextInputBackgroundVisible() global
+    return UI.GetBool(GetMenuName(), GetTextInputTarget("background"))
+endFunction
+function SetTextInputBackgroundVisible(bool value) global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("background"), value)
+endFunction
+function ToggleTextInputBackground() global
+    SetTextInputBackgroundVisible(! IsTextInputVisible())
+endFunction
+
+;; ~ Background Color ~
+
+function SetTextInputBackgroundColor(string color, bool enableBackground = true) global
+    if enableBackground
+        ShowTextInputBackground()
+    endIf
+    UI.SetString(GetMenuName(), GetTextInputTarget("backgroundColor"), GetColor(color))
+endFunction
+int function GetTextInputBackgroundColorInt() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("backgroundColor"))
+endFunction
+
+;; ~ Border ~
+
+function ShowTextInputBorder() global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("border"), true)
+endFunction
+function HideTextInputBorder() global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("border"), false)
+endFunction
+bool function IsTextInputBorderVisible() global
+    return UI.GetBool(GetMenuName(), GetTextInputTarget("border"))
+endFunction
+function SetTextInputBorderVisible(bool value) global
+    UI.SetBool(GetMenuName(), GetTextInputTarget("border"), value)
+endFunction
+function ToggleTextInputBorder() global
+    SetTextInputBorderVisible(! IsTextInputVisible())
+endFunction
+
+;; ~ Border Color ~
+
+function SetTextInputBorderColor(string color, bool enableBorder = true) global
+    if enableBorder
+        ShowTextInputBorder()
+    endIf
+    UI.SetString(GetMenuName(), GetTextInputTarget("borderColor"), GetColor(color))
+endFunction
+int function GetTextInputBorderColorInt() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("borderColor"))
+endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Background Functions
