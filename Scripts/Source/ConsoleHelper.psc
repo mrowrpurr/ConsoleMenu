@@ -1,6 +1,8 @@
 scriptName ConsoleHelper hidden
 {Utility for working with the Skyrim ~ console menu}
 
+; Implement Hide and Toggle for the 3 text fields
+
 ; Implement the 10 invoke functions for Instance and for Console (20x)
 ; Implement the 10 Get/Set functions for the Instance and for Console (20x)
 
@@ -46,8 +48,13 @@ function Invoke(string functionName) global
 endFunction
 
 ; DOC
-function InvokeString(string functionName, string str) global
-    UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), str)
+function InvokeString(string functionName, string value) global
+    UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), value)
+endFunction
+
+; DOC
+function InvokeInt(string functionName, int value) global
+    UI.Invokeint(GetMenuName(), GetConsoleTarget(functionName), value)
 endFunction
 
 ; Invoke an ActionScript function on the current Console instance
@@ -263,11 +270,7 @@ endFunction
 
 ; DOC
 bool function IsMinimized() global
-    Debug.Notification("Does " + GetHeight() + " equal " + GetOriginalHeight() + " minus " + GetCommandHistoryHeight() + " ??? " + (GetOriginalHeight() - GetCommandHistoryHeight()))
-    bool result = GetHeight() == (GetOriginalHeight() - GetCommandHistoryHeight())
-    Debug.Notification("Minimized: " + result)
-    return result
-    return GetHeight() == (GetOriginalHeight() - GetCommandHistoryHeight())
+    return GetPositionY() == (GetOriginalHeight() - GetCommandHistoryPositionY())
 endFunction
 
 ; Opens the Skyrim ~ console menu
@@ -308,19 +311,65 @@ endFunction
 
 function Restore(bool force = true) global
     if force || IsMinimized()
-        SetHeight(GetOriginalHeight())
+        SetPositionY(GetOriginalHeight())
     endIf
 endFunction
 
 ; DOC
-function SetHeight(int height) global ; Maybe rename to ParentHeight or I dunno yet.
+function SetPositionY(int height) global
     SetInstanceInt("_parent._y", height)
 endFunction
 
 ; DOC
-; TODO Change this to something like GetYPosition()
-int function GetHeight() global
+function SetPositionX(int height) global
+    SetInstanceInt("_parent._x", height)
+endFunction
+
+; DOC
+int function GetPositionY() global
     return GetInstanceInt("_parent._y")
+endFunction
+
+; DOC
+int function GetPositionX() global
+    return GetInstanceInt("_parent._x")
+endFunction
+
+; DOC
+function SetWidth(int pixels) global
+    SetInstanceInt("_width", pixels)
+endFunction
+
+; DOC
+function SetHeight(int pixels) global
+    SetInstanceInt("_height", pixels)
+endFunction
+
+; DOC
+function Scale(int percentage) global
+    float multiplier = percentage / 100.0
+    SetWidth((GetCurrentWidth() * multiplier) as int)
+    SetHeight((GetCurrentHeight() * multiplier) as int)
+    ; InvokeInstance("onResize")
+endFunction
+
+; DOC
+function HideBackground() global
+    SetInstanceBool("Background.visible", false)
+endFunction
+
+; DOC
+function ShowBackground() global
+    SetInstanceBool("Background.visible", true)
+endFunction
+
+; DOC
+function ToggleBackground() global
+    if GetInstanceBool("Background.visible")
+        HideBackground()
+    else
+        ShowBackground()
+    endIf
 endFunction
 
 ; DOC
@@ -329,8 +378,28 @@ int function GetOriginalHeight() global
 endFunction
 
 ; DOC
-int function GetCommandHistoryHeight() global
+int function GetOriginalWidth() global
+    return GetInstanceInt("OriginalWidth")
+endFunction
+
+; DOC
+int function GetCurrentHeight() global
+    return GetInstanceInt("_height")
+endFunction
+
+; DOC
+int function GetCurrentWidth() global
+    return GetInstanceInt("_width")
+endFunction
+
+; DOC
+int function GetCommandHistoryPositionY() global
     return GetInstanceInt("CommandHistory._y")
+endFunction
+
+; DOC
+int function GetCommandHistoryPositionX() global
+    return GetInstanceInt("CommandHistory._x")
 endFunction
 
 ; Add text to the history
