@@ -1,34 +1,94 @@
 scriptName ConsoleHelper hidden
 {Utility for working with the Skyrim ~ console menu}
 
-; Implement Hide and Toggle for the 3 text fields
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ConsoleHelper version
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Add ResetPosition
-; Add ResetScaleAndPosition
-; Add CenterPosition
+; Returns the version of the ConsoleHelper mod
+float function GetConsoleHelperVersion() global
+    return 1.0
+endFunction
 
-; Add Clear() which clears all 3 text entry fields
-
-; Implement the 10 invoke functions for Instance and for Console (20x)
-; Implement the 10 Get/Set functions for the Instance and for Console (20x)
-
-    ; TODO
-    ; ConsoleHelper.SetInstanceBool("CommandEntry.background", true)
-    ; ConsoleHelper.SetInstanceString("CommandEntry.backgroundColor", "0xff0000")
-
-    ; TODO
-    ; ConsoleHelper.SetInstanceBool("CommandEntry.border", true)
-    ; ConsoleHelper.SetInstanceString("CommandEntry.borderColor", "0xff0000")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helper to get the menu name
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Gets the 'Console' menu name
 string function GetMenuName() global
     return "Console"
 endFunction
 
-; Returns the version of the ConsoleHelper mod
-float function GetConsoleHelperVersion() global
-    return 1.0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Check if ConsoleHelper console.swf is available
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Returns whether the ConsoleHelper custom .swf is installed (built-in to the mod package)
+bool function IsConsoleHelperConsoleInstalled() global
+    return __consoleHelper__.GetIsConsoleHelperConsoleInstalled()
 endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Execute Command
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; Delegates the provided command to the default command runner used in the Console
+function ExecuteCommand(string command) global
+    InvokeInstanceString("ExecuteCommand", command)
+endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Print to Console
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Prints to the console
+; Alias for AddHistoryline()
+function Print(string text) global
+    AddHistoryLine(text)
+endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Size & Position Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+function ScrollUp() global
+    if IsConsoleHelperConsoleInstalled()
+        InvokeInstance("ScrollUp")
+    else
+        ; var _loc2_ = this.CommandHistory.bottomScroll - this.CommandHistory.scroll;
+        ;   var _loc3_ = this.CommandHistory.scroll - _loc2_;
+        ;   this.CommandHistory.scroll = _loc3_ <= 0 ? 0 : _loc3_;
+    endIf
+endFunction
+
+function ScrollDown() global
+    if IsConsoleHelperConsoleInstalled()
+        InvokeInstance("ScrollDown")
+    else
+        ;   _loc1_ = this.CommandHistory.bottomScroll - this.CommandHistory.scroll;
+        ;   _loc2_ = this.CommandHistory.scroll + _loc1_;
+        ;   this.CommandHistory.scroll = _loc2_ > this.CommandHistory.maxscroll ? this.CommandHistory.maxscroll : _loc2_;
+    endif
+endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TextInput Sections
+;;
+;; - Target Helpers
+;; - Show/Hide/Toggle
+;; - Get/Set Text
+;; - Text Size
+;; - Text Color
+;; - Background Color
+;; - Border Color
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General TextInput Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Returns target string for use by the UI script under the Console menu's namespace
 string function GetConsoleTarget(string suffix = "") global
@@ -48,100 +108,111 @@ string function GetConsoleInstanceTarget(string suffix = "") global
     endIf
 endFunction
 
-; Invoke an ActionScript function on the Console
-function Invoke(string functionName) global
-    UI.Invoke(GetMenuName(), GetConsoleTarget(functionName))
+function HideText() global
+    SetInstanceBool("CurrentSelection._visible", false)
+    SetInstanceBool("CommandHistory._visible", false)
+    SetInstanceBool("CommandEntry._visible", false)
 endFunction
 
-; DOC
-function InvokeString(string functionName, string value) global
-    UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), value)
+;;
+
+function ShowCurrentSelectionText() global
+
 endFunction
 
-; DOC
-function InvokeInt(string functionName, int value) global
-    UI.Invokeint(GetMenuName(), GetConsoleTarget(functionName), value)
+function ShowHeader() global
+
 endFunction
 
-; Invoke an ActionScript function on the current Console instance
-function InvokeInstance(string functionName) global
-    UI.Invoke(GetMenuName(), GetConsoleInstanceTarget(functionName))
+function HideCurrentSelectionText() global
+
 endFunction
 
-; DOC
-function InvokeInstanceString(string functionName, string value) global
-    UI.InvokeString(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
+function HideHeader() global
+
 endFunction
 
-; DOC
-function InvokeInstanceInt(string functionName, int value) global
-    UI.InvokeInt(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
+function ToggleCurrentSelectionText() global
+
 endFunction
 
-; DOC
-function InvokeInstanceIntArray(string functionName, int[] values) global
-    UI.InvokeIntA(GetMenuName(), GetConsoleInstanceTarget(functionName), values)
+function ToggleHeader() global
+
 endFunction
 
-; DOC
-string function GetString(string target) global
-    return UI.GetString(GetMenuName(), GetConsoleTarget(target))
+bool function IsCurrentSelectionTextVisible() global
+
 endFunction
 
-; DOC
-function SetString(string target, string value) global
-    UI.SetString(GetMenuName(), GetConsoleTarget(target), value)
+bool function IsHeaderVisible() global
+
 endFunction
 
-; DOC
-string function GetInstanceString(string target) global
-    return UI.GetString(GetMenuName(), GetConsoleInstanceTarget(target))
+;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Current Selection TextInput Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Returns target string for use by the UI script for interacting with the CurrentSelection TextInput
+string function GetCurrentSelectionTarget(string suffix = "") global
+    if suffix
+        return GetConsoleInstanceTarget("CurrentSelection." + suffix)
+    else
+        return GetConsoleInstanceTarget("CurrentSelection")
+    endIf
 endFunction
 
-; DOC
-function SetInstanceString(string target, string value) global
-    UI.SetString(GetMenuName(), GetConsoleInstanceTarget(target), value)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Command History TextInput Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; [[ Target Helpers ]]
+
+; Returns target string for use by the UI script for interacting with the CommandHistory TextInput
+string function GetCommandHistoryTarget(string suffix = "") global
+    if suffix
+        return GetConsoleInstanceTarget("CommandHistory." + suffix)
+    else
+        return GetConsoleInstanceTarget("CommandHistory")
+    endIf
 endFunction
 
-; DOC
-bool function GetBool(string target) global
-    return UI.GetBool(GetMenuName(), GetConsoleTarget(target))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Command Entry TextInput Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; [[ Target Helpers ]]
+
+; Returns target string for use by the UI script for interacting with the CommandEntry TextInput
+string function GetCommandEntryTarget(string suffix = "") global
+    if suffix
+        return GetConsoleInstanceTarget("CommandEntry." + suffix)
+    else
+        return GetConsoleInstanceTarget("CommandEntry")
+    endIf
 endFunction
 
-; DOC
-function SetBool(string target, bool value) global
-    UI.SetBool(GetMenuName(), GetConsoleTarget(target), value)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Background TextInput Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; [[ Target Helpers ]]
+
+; Returns target string for use by the UI script for interacting with the Background object
+string function GetBackgroundTarget(string suffix = "") global
+    if suffix
+        return GetConsoleInstanceTarget("Background." + suffix)
+    else
+        return GetConsoleInstanceTarget("Background")
+    endIf
 endFunction
 
-; DOC
-bool function GetInstanceBool(string target) global
-    return UI.GetBool(GetMenuName(), GetConsoleInstanceTarget(target))
-endFunction
 
-; DOC
-function SetInstanceBool(string target, bool value) global
-    UI.SetBool(GetMenuName(), GetConsoleInstanceTarget(target), value)
-endFunction
 
-; DOC
-int function GetInt(string target) global
-    return UI.GetInt(GetMenuName(), GetConsoleTarget(target))
-endFunction
 
-; DOC
-function SetInt(string target, int value) global
-    UI.SetInt(GetMenuName(), GetConsoleTarget(target), value)
-endFunction
 
-; DOC
-int function GetInstanceInt(string target) global
-    return UI.GetInt(GetMenuName(), GetConsoleInstanceTarget(target))
-endFunction
 
-; DOC
-function SetInstanceInt(string target, int value) global
-    UI.SetInt(GetMenuName(), GetConsoleInstanceTarget(target), value)
-endFunction
 
 ; DOC
 ; Can be set while menu is closed
@@ -547,12 +618,6 @@ function AddHistoryLine(string text) global
     AddHistory(text + "\n")
 endFunction
 
-; Prints to the console
-; Alias for AddHistoryline()
-function Print(string text) global
-    AddHistoryLine(text)
-endFunction
-
 ; DOC
 function SetTextSize(int pointSize) global
     InvokeInt("SetTextSize", pointSize)
@@ -579,27 +644,9 @@ function SetCommandEntryTextSize(int pointSize) global
     InvokeInt("SetCommandEntryTextSize", pointSize)
 endFunction
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
-;
-; Disables the native console's handling of the Enter and Return keys
-function DisableNativeEnterReturnKeyHandling() global
-    if __consoleHelper__.GetIsConsoleHelperConsoleInstalled()
-        SetInstanceBool("HandleEnterReturnKeys", false)
-    else
-        __consoleHelper__.LogCustomSwfRequiredError("DisableNativeEnterReturnKeyHandling")
-    endIf
-endFunction
-
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
-;
-; Enables the native console's handling of the Enter and Return keys
-function EnableNativeEnterReturnKeyHandling() global
-    if __consoleHelper__.GetIsConsoleHelperConsoleInstalled()
-        SetInstanceBool("HandleEnterReturnKeys", true)
-    else
-        __consoleHelper__.LogCustomSwfRequiredError("EnableNativeEnterReturnKeyHandling")
-    endIf
-endFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom Console Commands
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
@@ -621,22 +668,176 @@ endFunction
 ; You can process the commands however you wish.
 ; Use ExecuteCommand() if you'd like to run the command using the native command execution.
 function RegisterForCustomCommands(string eventName) global
-    __consoleHelper__.GetInstance().RegisterForCustomCommands(eventName)
+    if IsConsoleHelperConsoleInstalled()
+        __consoleHelper__.GetInstance().RegisterForCustomCommands(eventName)
+    else
+        ; TODO TRACE MESSAGE
+    endIf
 endFunction
 
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
 ; See RegisterForCustomCommands() for documentation.
 function UnregisterForCustomCommands(string eventName) global
-    __consoleHelper__.GetInstance().UnregisterForCustomCommands(eventName)
+    if IsConsoleHelperConsoleInstalled()
+        __consoleHelper__.GetInstance().UnregisterForCustomCommands(eventName)
+    else
+        ;; TODO TRACE MESSAGE
+    endIf
 endFunction
 
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
-; Delegates the provided command to the default command runner used in the Console
-function ExecuteCommand(string command) global
-    InvokeInstanceString("ExecuteCommand", command)
+; Disables the native console's handling of the Enter and Return keys
+function DisableNativeEnterReturnKeyHandling() global
+    if IsConsoleHelperConsoleInstalled()
+        SetInstanceBool("HandleEnterReturnKeys", false)
+    else
+        __consoleHelper__.LogCustomSwfRequiredError("DisableNativeEnterReturnKeyHandling")
+    endIf
 endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; Enables the native console's handling of the Enter and Return keys
+function EnableNativeEnterReturnKeyHandling() global
+    if IsConsoleHelperConsoleInstalled()
+        SetInstanceBool("HandleEnterReturnKeys", true)
+    else
+        __consoleHelper__.LogCustomSwfRequiredError("EnableNativeEnterReturnKeyHandling")
+    endIf
+endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Function Invocation Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Instance Function Invocation Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Invoke an ActionScript function on the Console
+function Invoke(string functionName) global
+    UI.Invoke(GetMenuName(), GetConsoleTarget(functionName))
+endFunction
+
+; DOC
+function InvokeString(string functionName, string value) global
+    UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), value)
+endFunction
+
+; DOC
+function InvokeInt(string functionName, int value) global
+    UI.Invokeint(GetMenuName(), GetConsoleTarget(functionName), value)
+endFunction
+
+; Invoke an ActionScript function on the current Console instance
+function InvokeInstance(string functionName) global
+    UI.Invoke(GetMenuName(), GetConsoleInstanceTarget(functionName))
+endFunction
+
+; DOC
+function InvokeInstanceString(string functionName, string value) global
+    UI.InvokeString(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
+endFunction
+
+; DOC
+function InvokeInstanceInt(string functionName, int value) global
+    UI.InvokeInt(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
+endFunction
+
+; DOC
+function InvokeInstanceIntArray(string functionName, int[] values) global
+    UI.InvokeIntA(GetMenuName(), GetConsoleInstanceTarget(functionName), values)
+endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Getter Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Instance Getter Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Setter Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Console Instance Setter Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+; DOC
+string function GetString(string target) global
+    return UI.GetString(GetMenuName(), GetConsoleTarget(target))
+endFunction
+
+; DOC
+function SetString(string target, string value) global
+    UI.SetString(GetMenuName(), GetConsoleTarget(target), value)
+endFunction
+
+; DOC
+string function GetInstanceString(string target) global
+    return UI.GetString(GetMenuName(), GetConsoleInstanceTarget(target))
+endFunction
+
+; DOC
+function SetInstanceString(string target, string value) global
+    UI.SetString(GetMenuName(), GetConsoleInstanceTarget(target), value)
+endFunction
+
+; DOC
+bool function GetBool(string target) global
+    return UI.GetBool(GetMenuName(), GetConsoleTarget(target))
+endFunction
+
+; DOC
+function SetBool(string target, bool value) global
+    UI.SetBool(GetMenuName(), GetConsoleTarget(target), value)
+endFunction
+
+; DOC
+bool function GetInstanceBool(string target) global
+    return UI.GetBool(GetMenuName(), GetConsoleInstanceTarget(target))
+endFunction
+
+; DOC
+function SetInstanceBool(string target, bool value) global
+    UI.SetBool(GetMenuName(), GetConsoleInstanceTarget(target), value)
+endFunction
+
+; DOC
+int function GetInt(string target) global
+    return UI.GetInt(GetMenuName(), GetConsoleTarget(target))
+endFunction
+
+; DOC
+function SetInt(string target, int value) global
+    UI.SetInt(GetMenuName(), GetConsoleTarget(target), value)
+endFunction
+
+; DOC
+int function GetInstanceInt(string target) global
+    return UI.GetInt(GetMenuName(), GetConsoleInstanceTarget(target))
+endFunction
+
+; DOC
+function SetInstanceInt(string target, int value) global
+    UI.SetInt(GetMenuName(), GetConsoleInstanceTarget(target), value)
+endFunction
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Friendly Color Helper Function (supports HTML color names)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Returns color in Flash compatible string hex format: "0xff00ff"
 ; Supports a variety of different inputs:
