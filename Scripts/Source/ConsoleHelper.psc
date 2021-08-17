@@ -459,6 +459,32 @@ function Print(string text) global
     AddHistoryLine(text)
 endFunction
 
+; DOC
+function SetTextSize(int pointSize) global
+    InvokeInt("SetTextSize", pointSize)
+endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; DOC
+function SetCurrentSelectionTextSize(int pointSize) global
+    InvokeInt("SetCurrentSelectionTextSize", pointSize)
+endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; DOC
+function SetCommandHistoryTextSize(int pointSize) global
+    InvokeInt("SetCommandHistoryTextSize", pointSize)
+endFunction
+
+; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+;
+; DOC
+function SetCommandEntryTextSize(int pointSize) global
+    InvokeInt("SetCommandEntryTextSize", pointSize)
+endFunction
+
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
 ; Disables the native console's handling of the Enter and Return keys
