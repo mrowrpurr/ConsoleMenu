@@ -152,7 +152,7 @@ event OnKeyDown(int keyCode)
             int index = 0
             while index < RegisteredCustomCommandEvents.Length
                 string eventName = RegisteredCustomCommandEvents[index]
-                string currentInputText = ConsoleHelper.GetAndClearCommandEntryText()
+                string currentInputText = ConsoleHelper.GetAndClearInputText()
                 SendModEvent(eventName, currentInputText, 0.0)
                 index += 1
             endWhile
@@ -200,7 +200,7 @@ int __isConsoleHelperConsoleInstalled = -1
 bool property IsConsoleHelperConsoleInstalled
     bool function get()
         if __isConsoleHelperConsoleInstalled == -1
-            bool isInstalled = ConsoleHelper.GetBool("IsConsoleHelperConsole")
+            bool isInstalled = UI.GetBool(ConsoleHelper.GetMenuName(), ConsoleHelper.GetTarget("IsConsoleHelperConsole"))
             if isInstalled
                 __isConsoleHelperConsoleInstalled = 1
             else
