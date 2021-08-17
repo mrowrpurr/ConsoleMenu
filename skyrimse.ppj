@@ -19,7 +19,7 @@
     </Variables>
     <Imports>
         <Import>@ImportsFolder\SKSE64\Scripts\Source</Import>
-        <Import>@ImportsFolder\PapyrusUtil\Scripts\Source</Import>
+        <!-- <Import>@ImportsFolder\PapyrusUtil\Scripts\Source</Import> -->
         <!-- <Import>@ImportsFolder\UIExtensions\scripts\source</Import> -->
         <!-- <Import>@ImportsFolder\JContainers\scripts\source</Import> -->
         <!-- <Import>@ImportsFolder\LibFire\Scripts\Source</Import> -->
@@ -27,7 +27,7 @@
         <!-- <Import>@ImportsFolder\iWantStatusBars\Source\Scripts</Import> -->
         <!-- <Import>@ImportsFolder\FISSES\scripts\source</Import> -->
         <!-- <Import>@ImportsFolder\SkyUI_SDK\Scripts\Source</Import> -->
-        <Import>@ImportsFolder\ConsoleUtil</Import>
+        <!-- <Import>@ImportsFolder\ConsoleUtil</Import> -->
         <!-- <Import>@ImportsFolder\PapyrusExtender\source\scripts</Import> -->
 
         <!-- Change this to be your default Skyrim install directory's Scripts\Source path  -->

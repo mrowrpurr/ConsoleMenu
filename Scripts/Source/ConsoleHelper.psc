@@ -74,24 +74,29 @@ function ScrollDown() global
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; TextInput Sections
+;; TextInput Sections Overview
 ;;
-;; - Target Helpers
-;; - Show/Hide/Toggle
-;; - Get/Set Text
-;; - Text Size
-;; - Text Color
-;; - Background Color
-;; - Border Color
+;; ~ Target Helpers ~
+;; ~ Show/Hide/Toggle ~
+;; ~ Get/Set Text ~
+;; ~ Text Size ~
+;; ~ Text Color ~
+;; ~ Text Opacity ~
+;; ~ Background Color ~
+;; ~ Background Opacity ~
+;; ~ Border Color ~
+;; ~ Border Opacity ~
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; General TextInput Functions
+;; Batch Functions for working across multiple elements
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; ~ Target Helpers ~
 
 ; Returns target string for use by the UI script under the Console menu's namespace
-string function GetConsoleTarget(string suffix = "") global
+string function GetTarget(string suffix = "") global
     if suffix
         return "_global.Console." + suffix
     else
@@ -100,101 +105,213 @@ string function GetConsoleTarget(string suffix = "") global
 endFunction
 
 ; Returns target string for use by the UI script under the namespace for the current Console instance
-string function GetConsoleInstanceTarget(string suffix = "") global
+string function GetInstanceTarget(string suffix = "") global
     if suffix
-        return GetConsoleTarget("ConsoleInstance." + suffix)
+        return GetTarget("ConsoleInstance." + suffix)
     else
-        return GetConsoleTarget("ConsoleInstance")
+        return GetTarget("ConsoleInstance")
     endIf
 endFunction
 
-function HideText() global
-    SetInstanceBool("CurrentSelection._visible", false)
-    SetInstanceBool("CommandHistory._visible", false)
-    SetInstanceBool("CommandEntry._visible", false)
+;; ~ Show/Hide/Toggle ~
+
+function HideAll() global
+    HideHeader()
+    HideBody()
+    HideTextInput()
+    HideBackground()
+endFunction
+function ShowAll() global
+    ShowHeader()
+    ShowBody()
+    ShowTextInput()
+    ShowBackground()
+endFunction
+function SetAllVisible(bool value)
+    SetHeaderVisible(value)
+    SetBodyVisible(value)
+    SetTextInputVisible(value)
+    SetBackgroundVisible(value)
+endFunction
+function ToggleAll() global
+    ToggleHeader()
+    ToggleBody()
+    ToggleTextInput()
+    ToggleBackground()
 endFunction
 
-;;
+;; ~ Get/Set Text ~
 
-function ShowCurrentSelectionText() global
+;; ~ Text Size ~
 
-endFunction
+;; ~ Text Color ~
 
-function ShowHeader() global
+;; ~ Text Opacity ~
 
-endFunction
+;; ~ Background Color ~
 
-function HideCurrentSelectionText() global
+;; ~ Background Opacity ~
 
-endFunction
+;; ~ Border Color ~
 
-function HideHeader() global
-
-endFunction
-
-function ToggleCurrentSelectionText() global
-
-endFunction
-
-function ToggleHeader() global
-
-endFunction
-
-bool function IsCurrentSelectionTextVisible() global
-
-endFunction
-
-bool function IsHeaderVisible() global
-
-endFunction
-
-;;
+;; ~ Border Opacity ~
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Current Selection TextInput Functions
+;; Current Selection aka "Header" TextInput Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; ~ Target Helpers ~
 
 ; Returns target string for use by the UI script for interacting with the CurrentSelection TextInput
-string function GetCurrentSelectionTarget(string suffix = "") global
+string function GetHeaderTarget(string suffix = "") global
     if suffix
-        return GetConsoleInstanceTarget("CurrentSelection." + suffix)
+        return GetInstanceTarget("CurrentSelection." + suffix)
     else
-        return GetConsoleInstanceTarget("CurrentSelection")
+        return GetInstanceTarget("CurrentSelection")
     endIf
 endFunction
 
+;; ~ Show/Hide/Toggle ~
+
+function ShowHeader() global
+    return SetBool(GetHeaderTarget("_visible"), true)
+endFunction
+function HideHeader() global
+    return SetBool(GetHeaderTarget("_visible"), false)
+endFunction
+bool function IsHeaderVisible() global
+    return GetBool(GetHeaderTarget("_visible"))
+endFunction
+bool function SetHeaderVisible(bool value) global
+    SetBool(GetHeaderTarget("_visible"), value)
+endFunction
+function ToggleHeader() global
+    SetBool(GetHeaderTarget("_visible"), ! IsHeaderVisible())
+endFunction
+
+;; ~ Get/Set Text ~
+
+string function GetHeaderText() global
+    return GetString(GetHeaderTarget("text"))
+endFunction
+function SetHeaderText(string value) global
+    SetString(GetHeaderTarget("text"), value)
+endFunction
+
+;; ~ Text Size ~
+
+;; ~ Text Color ~
+
+;; ~ Text Opacity ~
+
+;; ~ Background Color ~
+
+;; ~ Background Opacity ~
+
+;; ~ Border Color ~
+
+;; ~ Border Opacity ~
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Command History TextInput Functions
+;; Command History aka "Body" TextInput Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; [[ Target Helpers ]]
+;; ~ Target Helpers ~
 
 ; Returns target string for use by the UI script for interacting with the CommandHistory TextInput
-string function GetCommandHistoryTarget(string suffix = "") global
+string function GetBodyTarget(string suffix = "") global
     if suffix
-        return GetConsoleInstanceTarget("CommandHistory." + suffix)
+        return GetInstanceTarget("CommandHistory." + suffix)
     else
-        return GetConsoleInstanceTarget("CommandHistory")
+        return GetInstanceTarget("CommandHistory")
     endIf
 endFunction
 
+;; ~ Show/Hide/Toggle ~
+
+function ShowBody() global
+    return SetBool(GetBodyTarget("_visible"), true)
+endFunction
+function HideBody() global
+    return SetBool(GetBodyTarget("_visible"), false)
+endFunction
+bool function IsBodyVisible() global
+    return GetBool(GetBodyTarget("_visible"))
+endFunction
+bool function SetBodyVisible(bool value) global
+    SetBool(GetBodyTarget("_visible"), value)
+endFunction
+function ToggleBody() global
+    SetBool(GetBodyTarget("_visible"), ! IsBodyVisible())
+endFunction
+
+;; ~ Get/Set Text ~
+
+;; ~ Text Size ~
+
+;; ~ Text Color ~
+
+;; ~ Text Opacity ~
+
+;; ~ Background Color ~
+
+;; ~ Background Opacity ~
+
+;; ~ Border Color ~
+
+;; ~ Border Opacity ~
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Command Entry TextInput Functions
+;; Command Entry aka "Text Input" TextInput Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; [[ Target Helpers ]]
+;; ~ Target Helpers ~
 
 ; Returns target string for use by the UI script for interacting with the CommandEntry TextInput
-string function GetCommandEntryTarget(string suffix = "") global
+string function GetTextInputTarget(string suffix = "") global
     if suffix
-        return GetConsoleInstanceTarget("CommandEntry." + suffix)
+        return GetInstanceTarget("CommandEntry." + suffix)
     else
-        return GetConsoleInstanceTarget("CommandEntry")
+        return GetInstanceTarget("CommandEntry")
     endIf
 endFunction
 
+;; ~ Show/Hide/Toggle ~
+
+function ShowTextInput() global
+    return SetBool(GetTextInputTarget("_visible"), true)
+endFunction
+function HideTextInput() global
+    return SetBool(GetTextInputTarget("_visible"), false)
+endFunction
+bool function IsTextInputVisible() global
+    return GetBool(GetTextInputTarget("_visible"))
+endFunction
+bool function SetTextInputVisible(bool value) global
+    SetBool(GetTextInputTarget("_visible"), value)
+endFunction
+function ToggleTextInput() global
+    SetBool(GetTextInputTarget("_visible"), ! IsTextInputVisible())
+endFunction
+
+;; ~ Get/Set Text ~
+
+;; ~ Text Size ~
+
+;; ~ Text Color ~
+
+;; ~ Text Opacity ~
+
+;; ~ Background Color ~
+
+;; ~ Background Opacity ~
+
+;; ~ Border Color ~
+
+;; ~ Border Opacity ~
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Background TextInput Functions
+;; Background Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; [[ Target Helpers ]]
@@ -202,38 +319,67 @@ endFunction
 ; Returns target string for use by the UI script for interacting with the Background object
 string function GetBackgroundTarget(string suffix = "") global
     if suffix
-        return GetConsoleInstanceTarget("Background." + suffix)
+        return GetInstanceTarget("Background." + suffix)
     else
-        return GetConsoleInstanceTarget("Background")
+        return GetInstanceTarget("Background")
     endIf
 endFunction
 
+;; ~ Show/Hide/Toggle ~
 
-
-
-
-
-
-; DOC
-; Can be set while menu is closed
-string function GetCurrentSelectionText() global
-    return GetInstanceString("CurrentSelection.text")
+function ShowBackground() global
+    return SetBool(GetBackgroundTarget("_visible"), true)
+endFunction
+function HideBackground() global
+    return SetBool(GetBackgroundTarget("_visible"), false)
+endFunction
+bool function IsBackgroundVisible() global
+    return GetBool(GetBackgroundTarget("_visible"))
+endFunction
+bool function SetBackgroundVisible(bool value) global
+    SetBool(GetBackgroundTarget("_visible"), value)
+endFunction
+function ToggleBackground() global
+    SetBool(GetBackgroundTarget("_visible"), ! IsBackgroundVisible())
 endFunction
 
-; DOC
-function SetCurrentSelectionText(string text) global
-    SetInstanceString("CurrentSelection.text", text)
-endFunction
 
-; Alias for GetCurrentSelectionText
-string function GetHeaderText() global
-    return GetCurrentSelectionText()
-endFunction
 
-; Alias for SetCurrentSelectionText
-function SetHeaderText(string text) global
-    SetCurrentSelectionText(text)
-endFunction
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; DOC
 function SetCurrentSelectionTextColor(string color) global
@@ -492,25 +638,6 @@ function ResetScaleAndPosition() global
 endFunction
 
 ; DOC
-function HideBackground() global
-    SetInstanceBool("Background._visible", false)
-endFunction
-
-; DOC
-function ShowBackground() global
-    SetInstanceBool("Background._visible", true)
-endFunction
-
-; DOC
-function ToggleBackground() global
-    if GetInstanceBool("Background._visible")
-        HideBackground()
-    else
-        ShowBackground()
-    endIf
-endFunction
-
-; DOC
 function SetCurrentSelectionBackgroundColor(string color) global
     SetInstanceBool("CurrentSelection.background", true)
     SetInstanceString("CurrentSelection.backgroundColor", GetColor(color))
@@ -718,37 +845,37 @@ endFunction
 
 ; Invoke an ActionScript function on the Console
 function Invoke(string functionName) global
-    UI.Invoke(GetMenuName(), GetConsoleTarget(functionName))
+    UI.Invoke(GetMenuName(), GetTarget(functionName))
 endFunction
 
 ; DOC
 function InvokeString(string functionName, string value) global
-    UI.InvokeString(GetMenuName(), GetConsoleTarget(functionName), value)
+    UI.InvokeString(GetMenuName(), GetTarget(functionName), value)
 endFunction
 
 ; DOC
 function InvokeInt(string functionName, int value) global
-    UI.Invokeint(GetMenuName(), GetConsoleTarget(functionName), value)
+    UI.Invokeint(GetMenuName(), GetTarget(functionName), value)
 endFunction
 
 ; Invoke an ActionScript function on the current Console instance
 function InvokeInstance(string functionName) global
-    UI.Invoke(GetMenuName(), GetConsoleInstanceTarget(functionName))
+    UI.Invoke(GetMenuName(), GetInstanceTarget(functionName))
 endFunction
 
 ; DOC
 function InvokeInstanceString(string functionName, string value) global
-    UI.InvokeString(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
+    UI.InvokeString(GetMenuName(), GetInstanceTarget(functionName), value)
 endFunction
 
 ; DOC
 function InvokeInstanceInt(string functionName, int value) global
-    UI.InvokeInt(GetMenuName(), GetConsoleInstanceTarget(functionName), value)
+    UI.InvokeInt(GetMenuName(), GetInstanceTarget(functionName), value)
 endFunction
 
 ; DOC
 function InvokeInstanceIntArray(string functionName, int[] values) global
-    UI.InvokeIntA(GetMenuName(), GetConsoleInstanceTarget(functionName), values)
+    UI.InvokeIntA(GetMenuName(), GetInstanceTarget(functionName), values)
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -770,62 +897,62 @@ endFunction
 
 ; DOC
 string function GetString(string target) global
-    return UI.GetString(GetMenuName(), GetConsoleTarget(target))
+    return UI.GetString(GetMenuName(), GetTarget(target))
 endFunction
 
 ; DOC
 function SetString(string target, string value) global
-    UI.SetString(GetMenuName(), GetConsoleTarget(target), value)
+    UI.SetString(GetMenuName(), GetTarget(target), value)
 endFunction
 
 ; DOC
 string function GetInstanceString(string target) global
-    return UI.GetString(GetMenuName(), GetConsoleInstanceTarget(target))
+    return UI.GetString(GetMenuName(), GetInstanceTarget(target))
 endFunction
 
 ; DOC
 function SetInstanceString(string target, string value) global
-    UI.SetString(GetMenuName(), GetConsoleInstanceTarget(target), value)
+    UI.SetString(GetMenuName(), GetInstanceTarget(target), value)
 endFunction
 
 ; DOC
 bool function GetBool(string target) global
-    return UI.GetBool(GetMenuName(), GetConsoleTarget(target))
+    return UI.GetBool(GetMenuName(), GetTarget(target))
 endFunction
 
 ; DOC
 function SetBool(string target, bool value) global
-    UI.SetBool(GetMenuName(), GetConsoleTarget(target), value)
+    UI.SetBool(GetMenuName(), GetTarget(target), value)
 endFunction
 
 ; DOC
 bool function GetInstanceBool(string target) global
-    return UI.GetBool(GetMenuName(), GetConsoleInstanceTarget(target))
+    return UI.GetBool(GetMenuName(), GetInstanceTarget(target))
 endFunction
 
 ; DOC
 function SetInstanceBool(string target, bool value) global
-    UI.SetBool(GetMenuName(), GetConsoleInstanceTarget(target), value)
+    UI.SetBool(GetMenuName(), GetInstanceTarget(target), value)
 endFunction
 
 ; DOC
 int function GetInt(string target) global
-    return UI.GetInt(GetMenuName(), GetConsoleTarget(target))
+    return UI.GetInt(GetMenuName(), GetTarget(target))
 endFunction
 
 ; DOC
 function SetInt(string target, int value) global
-    UI.SetInt(GetMenuName(), GetConsoleTarget(target), value)
+    UI.SetInt(GetMenuName(), GetTarget(target), value)
 endFunction
 
 ; DOC
 int function GetInstanceInt(string target) global
-    return UI.GetInt(GetMenuName(), GetConsoleInstanceTarget(target))
+    return UI.GetInt(GetMenuName(), GetInstanceTarget(target))
 endFunction
 
 ; DOC
 function SetInstanceInt(string target, int value) global
-    UI.SetInt(GetMenuName(), GetConsoleInstanceTarget(target), value)
+    UI.SetInt(GetMenuName(), GetInstanceTarget(target), value)
 endFunction
 
 

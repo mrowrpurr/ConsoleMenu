@@ -1,4 +1,4 @@
-scriptName __consoleHelper__ extends Quest
+scriptName __consoleHelper__ extends Quest hidden
 {[INTERNAL] Allows ConsoleHelper to store persistent data and perform operations on Console open/close}
 
 ; TODO TODO TODO - REMOVE CONSOLE UTIL SUPPORT BECAUSE IT MAKES COMPILATION SAD FACE - MEANS WE CAN COMPLETELY GET RID OF CACHE CLEARING
@@ -177,7 +177,6 @@ endFunction
 ; Reset on original mod installation and then on player load game events
 function ClearCache()
     __isConsoleHelperConsoleInstalled = -1
-    __isConsoleUtilInstalled = -1
     IsCustomConsoleCommandsEnabled = false
     InitialConsoleWidth = -1
     InitialConsoleHeight = -1
@@ -197,11 +196,6 @@ bool IsCustomConsoleCommandsEnabled = false
 ; Cache of whether the ConsoleHelper custom console.swf is installed
 int __isConsoleHelperConsoleInstalled = -1
 
-; Cache of whether ConsoleUtil is installed
-; Provides PrintMessage and ExecuteCommand (in case our custom console is not available)
-; Check via ConsoleUtil.GetVersion()
-int __isConsoleUtilInstalled = -1
-
 ; Property which is true if the currently console.swf used by the game is our customized version for ConsoleHelper
 bool property IsConsoleHelperConsoleInstalled
     bool function get()
@@ -217,17 +211,3 @@ bool property IsConsoleHelperConsoleInstalled
     endFunction
 endProperty
 
-; Property which is true if ConsoleUtil is installed
-bool property IsConsoleUtilInstalled
-    bool function get()
-        if __isConsoleUtilInstalled == -1
-            int consoleUtilVersion = ConsoleUtil.GetVersion()
-            if consoleUtilVersion == 0
-                __isConsoleUtilInstalled = 0
-            else
-                __isConsoleUtilInstalled = 1
-            endIf
-        endIf
-        return __isConsoleUtilInstalled == 1
-    endFunction
-endProperty
