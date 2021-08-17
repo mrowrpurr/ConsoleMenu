@@ -6,6 +6,18 @@ scriptName __consoleHelper__ extends Quest
 ; Stores the currently installed version of ConsoleHelper
 float property CurrentlyInstalledVersion auto
 
+; The console height at the time the mod is loaded (recalculated on game save loads)
+int property InitialConsoleHeight auto
+
+; The console width at the time the mod is loaded (recalculated on game save loads)
+int property InitialConsoleWidth auto
+
+; The console X position at the time the mod is loaded (recalculated on game save loads)
+int property InitialConsoleX auto
+
+; The console Y position at the time the mod is loaded (recalculated on game save loads)
+int property InitialConsoleY auto
+
 ; Adds to the Papyrus logs with the prefix [ConsoleHelper]
 function Log(string text) global
     Debug.Trace("[ConsoleHelper] " + text)
@@ -18,7 +30,7 @@ endFunction
 event OnInit()
     ; Set the currently installed version of this mod on first-time mod initialization
     CurrentlyInstalledVersion = ConsoleHelper.GetConsoleHelperVersion()
-    ClearCache()
+    ResetData()
 endEvent
 
 ; Helper to get an instance of __consoleHelper__ for use in the public ConsoleHelper interface
@@ -148,12 +160,29 @@ event OnKeyDown(int keyCode)
     endIf
 endEvent
 
+; Called on initial mod load and player load games
+function ResetData()
+    ClearCache()
+    SaveCurrentConsoleDimensions()
+endFunction
+
+function SaveCurrentConsoleDimensions()
+    InitialConsoleWidth = ConsoleHelper.GetCurrentWidth()
+    InitialConsoleHeight = ConsoleHelper.GetCurrentHeight()
+    InitialConsoleX = ConsoleHelper.GetPositionX()
+    InitialConsoleY = ConsoleHelper.GetPositionY()
+endFunction
+
 ; Reset the caches of whether various things are installed
 ; Reset on original mod installation and then on player load game events
 function ClearCache()
     __isConsoleHelperConsoleInstalled = -1
     __isConsoleUtilInstalled = -1
     IsCustomConsoleCommandsEnabled = false
+    InitialConsoleWidth = -1
+    InitialConsoleHeight = -1
+    InitialConsoleX = -1
+    InitialConsoleY = -1
 endFunction
 
 int ENTER_KEY = 28

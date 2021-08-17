@@ -3,6 +3,12 @@ scriptName ConsoleHelper hidden
 
 ; Implement Hide and Toggle for the 3 text fields
 
+; Add ResetPosition
+; Add ResetScaleAndPosition
+; Add CenterPosition
+
+; Add Clear() which clears all 3 text entry fields
+
 ; Implement the 10 invoke functions for Instance and for Console (20x)
 ; Implement the 10 Get/Set functions for the Instance and for Console (20x)
 
@@ -350,7 +356,40 @@ function Scale(int percentage) global
     float multiplier = percentage / 100.0
     SetWidth((GetCurrentWidth() * multiplier) as int)
     SetHeight((GetCurrentHeight() * multiplier) as int)
-    ; InvokeInstance("onResize")
+endFunction
+
+; DOC
+function ResetScale() global
+    SetWidth(__consoleHelper__.GetInstance().InitialConsoleWidth)
+    SetHeight(__consoleHelper__.GetInstance().InitialConsoleHeight)
+endFunction
+
+; DOC
+function ResetPosition() global
+    SetPositionX(__consoleHelper__.GetInstance().InitialConsoleX)
+    SetPositionY(__consoleHelper__.GetInstance().InitialConsoleY)
+endFunction
+
+; DOC
+function Center() global
+    int screenWidth = __consoleHelper__.GetInstance().InitialConsoleWidth
+    int currentWidth = GetCurrentWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetPositionX(emptySpaceOnSides / 2)
+endFunction
+
+; DOC
+function DockTop() global
+    ResetScaleAndPosition()
+    Scale(84)
+    SetPositionY(0)
+    Center()
+endFunction
+
+; DOC
+function ResetScaleAndPosition() global
+    ResetScale()
+    ResetPosition()
 endFunction
 
 ; DOC
