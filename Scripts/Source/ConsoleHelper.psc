@@ -258,10 +258,38 @@ function SetInputTextColor(string color) global
 endFunction
 
 ; DOC
-function SetColor(string color) global
+function SetTextColor(string color) global
     SetCurrentSelectionTextColor(color)
     SetCommandHistoryTextColor(color)
     SetCommandEntryTextColor(color)
+endFunction
+
+; DOC
+function SetBackgroundColor(string color) global
+    SetCurrentSelectionBackgroundColor(color)
+    SetCommandHistoryBackgroundColor(color)
+    SetCommandEntryBackgroundColor(color)
+endFunction
+
+; DOC
+function UnsetBackgroundColor() global
+    UnsetCurrentSelectionBackgroundColor()
+    UnsetCommandHistoryBackgroundColor()
+    UnsetCommandEntryBackgroundColor()
+endFunction
+
+; DOC
+function SetBorderColor(string color) global
+    SetCurrentSelectionBorderColor(color)
+    SetCommandHistoryBorderColor(color)
+    SetCommandEntryBorderColor(color)
+endFunction
+
+; DOC
+function UnsetBorderColor() global
+    UnsetCurrentSelectionBorderColor()
+    UnsetCommandHistoryBorderColor()
+    UnsetCommandEntryBorderColor()
 endFunction
 
 ; DOC
@@ -409,6 +437,72 @@ function ToggleBackground() global
     else
         ShowBackground()
     endIf
+endFunction
+
+; DOC
+function SetCurrentSelectionBackgroundColor(string color) global
+    SetInstanceBool("CurrentSelection.background", true)
+    SetInstanceString("CurrentSelection.backgroundColor", GetColor(color))
+endFunction
+
+; DOC
+function UnsetCurrentSelectionBackgroundColor() global
+    SetInstanceBool("CurrentSelection.background", false)
+endFunction
+
+; DOC
+function SetCurrentSelectionBorderColor(string color) global
+    SetInstanceBool("CurrentSelection.border", true)
+    SetInstanceString("CurrentSelection.borderColor", GetColor(color))
+endFunction
+
+; DOC
+function UnsetCurrentSelectionBorderColor() global
+    SetInstanceBool("CurrentSelection.border", false)
+endFunction
+
+; DOC
+function SetCommandHistoryBackgroundColor(string color) global
+    SetInstanceBool("CommandHistory.background", true)
+    SetInstanceString("CommandHistory.backgroundColor", GetColor(color))
+endFunction
+
+; DOC
+function UnsetCommandHistoryBackgroundColor() global
+    SetInstanceBool("CommandHistory.background", false)
+endFunction
+
+; DOC
+function SetCommandHistoryBorderColor(string color) global
+    SetInstanceBool("CommandHistory.border", true)
+    SetInstanceString("CommandHistory.borderColor", GetColor(color))
+endFunction
+
+; DOC
+function UnsetCommandHistoryBorderColor() global
+    SetInstanceBool("CommandHistory.border", false)
+endFunction
+
+; DOC
+function SetCommandEntryBackgroundColor(string color) global
+    SetInstanceBool("CommandEntry.background", true)
+    SetInstanceString("CommandEntry.backgroundColor", GetColor(color))
+endFunction
+
+; DOC
+function UnsetCommandEntryBackgroundColor() global
+    SetInstanceBool("CommandEntry.background", false)
+endFunction
+
+; DOC
+function SetCommandEntryBorderColor(string color) global
+    SetInstanceBool("CommandEntry.border", true)
+    SetInstanceString("CommandEntry.borderColor", GetColor(color))
+endFunction
+
+; DOC
+function UnsetCommandEntryBorderColor() global
+    SetInstanceBool("CommandEntry.border", false)
 endFunction
 
 ; DOC
