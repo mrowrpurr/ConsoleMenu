@@ -115,38 +115,38 @@ endFunction
 
 ;; ~ Show/Hide/Toggle ~
 
-; function HideAll() global
-;     HideHeader()
-;     HideBody()
-;     HideTextInput()
-;     HideBackground()
-; endFunction
-; function ShowAll() global
-;     ShowHeader()
-;     ShowBody()
-;     ShowTextInput()
-;     ShowBackground()
-; endFunction
-; function SetAllVisible(bool value)
-;     SetHeaderVisible(value)
-;     SetBodyVisible(value)
-;     SetTextInputVisible(value)
-;     SetBackgroundVisible(value)
-; endFunction
-; function ToggleAll() global
-;     ToggleHeader()
-;     ToggleBody()
-;     ToggleTextInput()
-;     ToggleBackground()
-; endFunction
+function HideAll() global
+    HideHeader()
+    HideBody()
+    HideTextInput()
+    HideBackground()
+endFunction
+function ShowAll() global
+    ShowHeader()
+    ShowBody()
+    ShowTextInput()
+    ShowBackground()
+endFunction
+function SetAllVisible(bool value)
+    SetHeaderVisible(value)
+    SetBodyVisible(value)
+    SetTextInputVisible(value)
+    SetBackgroundVisible(value)
+endFunction
+function ToggleAll() global
+    ToggleHeader()
+    ToggleBody()
+    ToggleTextInput()
+    ToggleBackground()
+endFunction
 
-; ;; ~ Get/Set/Clear Text ~
+;; ~ Get/Set/Clear Text ~
 
-; function ClearAllText() global
-;     ClearHeaderText()
-;     ClearBodyText()
-;     ClearTextInputText()
-; endFunction
+function ClearAllText() global
+    ClearHeaderText()
+    ClearBodyText()
+    ClearTextInputText()
+endFunction
 
 ;; ~ Text Size ~
 
@@ -156,15 +156,55 @@ endFunction
 
 ;; ~ Text Color ~
 
+function SetTextColor(string color) global
+    SetHeaderTextColor(color)
+    SetBodyTextColor(color)
+    SetTextInputTextColor(color)
+endFunction
+
 ;; ~ Opacity ~
+
+function SetOpacity(int opacity) global
+    SetHeaderOpacity(opacity)
+    SetBodyOpacity(opacity)
+    SetTextInputOpacity(opacity)
+endFunction
 
 ;; ~ Background Color ~
 
-;; ~ Background Opacity ~
+function SetBackgroundColor(string color, bool enableBackground = true) global
+    SetHeaderBackgroundColor(color, enableBackground)
+    SetBodyBackgroundColor(color,enableBackground)
+    SetTextInputBackgroundColor(color,enableBackground )
+endFunction
+function ShowBackgrounds() global
+    ShowHeaderBorder()
+    ShowBodyBorder()
+    ShowTextInputBorder()
+endFunction
+function HideBackgrounds() global
+    HideHeaderBorder()
+    HideBodyBorder()
+    HideTextInputBorder()
+endFunction
 
 ;; ~ Border Color ~
 
-;; ~ Border Opacity ~
+function SetBorderColor(string color, bool enableBorder = true) global
+    SetHeaderBorderColor(color, enableBorder)
+    SetBodyBorderColor(color, enableBorder)
+    SetTextInputBorderColor(color, enableBorder)
+endFunction
+function ShowBorders() global
+    ShowHeaderBorder()
+    ShowBodyBorder()
+    ShowTextInputBorder()
+endFunction
+function HideBorders() global
+    HideHeaderBorder()
+    HideBodyBorder()
+    HideTextInputBorder()
+endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Current Selection aka "Header" TextInput Functions
@@ -291,6 +331,8 @@ function SetHeaderBorderColor(string color, bool enableBorder = true) global
         ShowHeaderBorder()
     endIf
     UI.SetString(GetMenuName(), GetHeaderTarget("borderColor"), GetColor(color))
+    ; UI.SetBool("Console", GetInstanceTarget("CurrentSelection.border"), true)
+    ; UI.SetString("Console", GetInstanceTarget("CurrentSelection.borderColor"), GetColor(color))
 endFunction
 int function GetHeaderBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetHeaderTarget("borderColor"))
@@ -421,6 +463,8 @@ function SetBodyBorderColor(string color, bool enableBorder = true) global
         ShowBodyBorder()
     endIf
     UI.SetString(GetMenuName(), GetBodyTarget("borderColor"), GetColor(color))
+        ;     UI.SetBool("Console", ConsoleHelper.GetInstanceTarget("CommandHistory.border"), true)
+        ; UI.SetString("Console", ConsoleHelper.GetInstanceTarget("CommandHistory.borderColor"), ConsoleHelper.GetColor("red"))
 endFunction
 int function GetBodyBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetBodyTarget("borderColor"))
@@ -560,6 +604,8 @@ function SetTextInputBorderColor(string color, bool enableBorder = true) global
         ShowTextInputBorder()
     endIf
     UI.SetString(GetMenuName(), GetTextInputTarget("borderColor"), GetColor(color))
+    ;  UI.SetBool("Console", ConsoleHelper.GetInstanceTarget("CommandEntry.border"), true)
+    ;     UI.SetString("Console", ConsoleHelper.GetInstanceTarget("CommandEntry.borderColor"), ConsoleHelper.GetColor("red"))
 endFunction
 int function GetTextInputBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetTextInputTarget("borderColor"))
