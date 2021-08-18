@@ -86,6 +86,7 @@ endFunction
 ;; ~ Background Opacity ~
 ;; ~ Border Color ~
 ;; ~ Border Opacity ~
+;; ~ Adjust Size and Position ~
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -206,6 +207,10 @@ function HideBorders() global
     HideTextInputBorder()
 endFunction
 
+;; ~ Adjust Size and Position ~
+
+; TODO
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Current Selection aka "Header" TextInput Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -270,7 +275,7 @@ endFunction
 ;; ~ Opacity ~
 
 function SetHeaderOpacity(int opacity) global
-    UI.SetInt(GetMenuName(), GetHeaderTarget("_alpha"), opacity)
+    UI.SetNumber(GetMenuName(), GetHeaderTarget("_alpha"), opacity)
 endFunction
 int function GetHeaderOpacity() global
     return UI.GetInt(GetMenuName(), GetHeaderTarget("_alpha"))
@@ -338,6 +343,39 @@ int function GetHeaderBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetHeaderTarget("borderColor"))
 endFunction
 
+;; ~ Adjust Size and Position ~
+
+int function GetHeaderWidth() global
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("_width"))
+endFunction
+function SetHeaderWidth(int width) global
+    UI.SetNumber(GetMenuName(), GetHeaderTarget("_width"), width)
+endFunction
+int function GetHeaderHeight() global
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("_height"))
+endFunction
+function SetHeaderHeight(int height) global
+    UI.SetNumber(GetMenuName(), GetHeaderTarget("_height"), height)
+endFunction
+int function GetHeaderPositionX() global
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("_x"))
+endFunction
+function SetHeaderPositionX(int x) global
+    UI.SetNumber(GetMenuName(), GetHeaderTarget("_x"), x)
+endFunction
+int function GetHeaderPositionY() global
+    return UI.GetInt(GetMenuName(), GetHeaderTarget("_y"))
+endFunction
+function SetHeaderPositionY(int y) global
+    UI.SetNumber(GetMenuName(), GetHeaderTarget("_y"), y)
+endFunction
+function CenterHeader() global
+    int screenWidth = __consoleHelper__.GetScreenWidth()
+    int currentWidth = GetHeaderWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetHeaderPositionX(emptySpaceOnSides / 2)
+endFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Command History aka "Body" TextInput Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -402,7 +440,7 @@ endFunction
 ;; ~ Opacity ~
 
 function SetBodyOpacity(int opacity) global
-    UI.SetInt(GetMenuName(), GetBodyTarget("_alpha"), opacity)
+    UI.SetNumber(GetMenuName(), GetBodyTarget("_alpha"), opacity)
 endFunction
 int function GetBodyOpacity() global
     return UI.GetInt(GetMenuName(), GetBodyTarget("_alpha"))
@@ -468,6 +506,39 @@ function SetBodyBorderColor(string color, bool enableBorder = true) global
 endFunction
 int function GetBodyBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetBodyTarget("borderColor"))
+endFunction
+
+;; ~ Adjust Size and Position ~
+
+int function GetBodyWidth() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("_width"))
+endFunction
+function SetBodyWidth(int width) global
+    UI.SetNumber(GetMenuName(), GetBodyTarget("_width"), width)
+endFunction
+int function GetBodyHeight() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("_height"))
+endFunction
+function SetBodyHeight(int height) global
+    UI.SetNumber(GetMenuName(), GetBodyTarget("_height"), height)
+endFunction
+int function GetBodyPositionX() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("_x"))
+endFunction
+function SetBodyPositionX(int x) global
+    UI.SetNumber(GetMenuName(), GetBodyTarget("_x"), x)
+endFunction
+int function GetBodyPositionY() global
+    return UI.GetInt(GetMenuName(), GetBodyTarget("_y"))
+endFunction
+function SetBodyPositionY(int y) global
+    UI.SetNumber(GetMenuName(), GetBodyTarget("_y"), y)
+endFunction
+function CenterBody() global
+    int screenWidth = __consoleHelper__.GetScreenWidth()
+    int currentWidth = GetBodyWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetBodyPositionX(emptySpaceOnSides / 2)
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -543,7 +614,7 @@ endFunction
 ;; ~ Opacity ~
 
 function SetTextInputOpacity(int opacity) global
-    UI.SetInt(GetMenuName(), GetTextInputTarget("_alpha"), opacity)
+    UI.SetNumber(GetMenuName(), GetTextInputTarget("_alpha"), opacity)
 endFunction
 int function GetTextInputOpacity() global
     return UI.GetInt(GetMenuName(), GetTextInputTarget("_alpha"))
@@ -611,6 +682,39 @@ int function GetTextInputBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetTextInputTarget("borderColor"))
 endFunction
 
+;; ~ Adjust Size and Position ~
+
+int function GetTextInputWidth() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("_width"))
+endFunction
+function SetTextInputWidth(int width) global
+    UI.SetNumber(GetMenuName(), GetTextInputTarget("_width"), width)
+endFunction
+int function GetTextInputHeight() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("_height"))
+endFunction
+function SetTextInputHeight(int height) global
+    UI.SetNumber(GetMenuName(), GetTextInputTarget("_height"), height)
+endFunction
+int function GetTextInputPositionX() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("_x"))
+endFunction
+function SetTextInputPositionX(int x) global
+    UI.SetNumber(GetMenuName(), GetTextInputTarget("_x"), x)
+endFunction
+int function GetTextInputPositionY() global
+    return UI.GetInt(GetMenuName(), GetTextInputTarget("_y"))
+endFunction
+function SetTextInputPositionY(int y) global
+    UI.SetNumber(GetMenuName(), GetTextInputTarget("_y"), y)
+endFunction
+function CenterTextInput() global
+    int screenWidth = __consoleHelper__.GetScreenWidth()
+    int currentWidth = GetTextInputWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetTextInputPositionX(emptySpaceOnSides / 2)
+endFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Background Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -644,62 +748,101 @@ function ToggleBackground() global
     UI.SetBool(GetMenuName(), GetBackgroundTarget("_visible"), ! IsBackgroundVisible())
 endFunction
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ~ Adjust Size and Position ~
+
+int function GetBackgroundWidth() global
+    return UI.GetInt(GetMenuName(), GetBackgroundTarget("_width"))
+endFunction
+function SetBackgroundWidth(int width) global
+    UI.SetNumber(GetMenuName(), GetBackgroundTarget("_width"), width)
+endFunction
+int function GetBackgroundHeight() global
+    return UI.GetInt(GetMenuName(), GetBackgroundTarget("_height"))
+endFunction
+function SetBackgroundHeight(int height) global
+    UI.SetNumber(GetMenuName(), GetBackgroundTarget("_height"), height)
+endFunction
+int function GetBackgroundPositionX() global
+    return UI.GetInt(GetMenuName(), GetBackgroundTarget("_x"))
+endFunction
+function SetBackgroundPositionX(int x) global
+    UI.SetNumber(GetMenuName(), GetBackgroundTarget("_x"), x)
+endFunction
+int function GetBackgroundPositionY() global
+    return UI.GetInt(GetMenuName(), GetBackgroundTarget("_y"))
+endFunction
+function SetBackgroundPositionY(int y) global
+    UI.SetNumber(GetMenuName(), GetBackgroundTarget("_y"), y)
+endFunction
+function CenterBackground() global
+    int screenWidth = __consoleHelper__.GetScreenWidth()
+    int currentWidth = GetBackgroundWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetBackgroundPositionX(emptySpaceOnSides / 2)
+endFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; DOC
-bool function IsShown() global
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+function CenterConsole() global
+    int screenWidth = __consoleHelper__.GetScreenWidth()
+    int currentWidth = GetCurrentWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetPositionX(emptySpaceOnSides / 2)
+endFunction
+
+bool function IsOpen() global
     return UI.GetBool(GetMenuName(), GetInstanceTarget("Shown"))
 endFunction
 
-; Alias for IsShown()
-bool function IsOpen() global
-    IsShown()
-endFunction
-
-; DOC
 bool function IsMinimized() global
     return GetPositionY() == (GetOriginalHeight() - GetCommandHistoryPositionY())
 endFunction
 
 ; Opens the Skyrim ~ console menu
 function Open(bool force = false) global
-    if force || ! IsShown() || IsMinimized()
+    if force || ! IsOpen() || IsMinimized()
         if IsMinimized()
             Restore()
         else
-            int openCloseConsoleKey = Input.GetMappedKey("Console")
-            Input.TapKey(openCloseConsoleKey)
+            TapConsoleToggleKey()
         endIf
     endIf
 endFunction
 
-; Alias for Open()
-function Show(bool force = false) global
-    Open(force)
-endFunction
-
-; Alias for Hide()
+; Closes the Skyrim ~ console menu
 function Close(bool force = false) global
-    Hide(force)
+    if force || IsOpen() || ! IsMinimized()
+        if IsMinimized()
+            Restore()
+        endIf
+        TapConsoleToggleKey()
+    endIf
 endFunction
 
-; DOCHide
+function TapConsoleToggleKey() global
+    Input.TapKey(GetConsoleToggleKeyCode())
+endFunction
+
+int function GetConsoleToggleKeyCode() global
+    return Input.GetMappedKey(GetMenuName())
+endFunction
+
 function Hide(bool force = false) global
-    if force || IsShown()
+    if force || IsOpen()
         UI.Invoke(GetMenuName(), GetTarget("Hide"))
     endIf
 endFunction
 
-; DOC Minimize
 function Minimize(bool force = false) global
-    if force || IsShown()
+    if force || IsOpen()
         UI.Invoke(GetMenuName(), GetTarget("Minimize"))
     endIf
 endFunction
@@ -710,103 +853,98 @@ function Restore(bool force = true) global
     endIf
 endFunction
 
-; DOC
+
 function SetPositionY(int height) global
-    UI.SetInt(GetMenuName(), GetInstanceTarget("_parent._y"), height)
+    UI.SetNumber(GetMenuName(), GetInstanceTarget("_parent._y"), height)
 endFunction
 
-; DOC
+
 function SetPositionX(int height) global
-    UI.SetInt(GetMenuName(), GetInstanceTarget("_parent._x"), height)
+    UI.SetNumber(GetMenuName(), GetInstanceTarget("_parent._x"), height)
 endFunction
 
-; DOC
+
 int function GetPositionY() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("_parent._y"))
 endFunction
 
-; DOC
+
 int function GetPositionX() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("_parent._x"))
 endFunction
 
-; DOC
+
 function SetWidth(int pixels) global
-    UI.SetInt(GetMenuName(), GetInstanceTarget("_width"), pixels)
+    UI.SetNumber(GetMenuName(), GetInstanceTarget("_width"), pixels)
 endFunction
 
-; DOC
+
 function SetHeight(int pixels) global
-    UI.SetInt(GetMenuName(), GetInstanceTarget("_height"), pixels)
+    UI.SetNumber(GetMenuName(), GetInstanceTarget("_height"), pixels)
 endFunction
 
-; DOC
+
 function Scale(int percentage) global
     float multiplier = percentage / 100.0
     SetWidth((GetCurrentWidth() * multiplier) as int)
     SetHeight((GetCurrentHeight() * multiplier) as int)
 endFunction
 
-; DOC
+
 function ResetScale() global
     SetWidth(__consoleHelper__.GetInstance().InitialConsoleWidth)
     SetHeight(__consoleHelper__.GetInstance().InitialConsoleHeight)
 endFunction
 
-; DOC
+
 function ResetPosition() global
     SetPositionX(__consoleHelper__.GetInstance().InitialConsoleX)
     SetPositionY(__consoleHelper__.GetInstance().InitialConsoleY)
 endFunction
 
-; DOC
-function Center() global
-    int screenWidth = __consoleHelper__.GetInstance().InitialConsoleWidth
-    int currentWidth = GetCurrentWidth()
-    int emptySpaceOnSides = screenWidth - currentWidth
-    SetPositionX(emptySpaceOnSides / 2)
-endFunction
 
-; DOC
+; TODO provide this for each element including background too!
+
+
 function DockTop() global
     ResetScaleAndPosition()
     Scale(84)
     SetPositionY(0)
-    Center()
+    CenterConsole()
 endFunction
 
-; DOC
+
 function ResetScaleAndPosition() global
     ResetScale()
     ResetPosition()
 endFunction
 
-; DOC
+
 int function GetOriginalHeight() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("OriginalHeight"))
 endFunction
 
-; DOC
+
 int function GetOriginalWidth() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("OriginalWidth"))
 endFunction
 
-; DOC
+
 int function GetCurrentHeight() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("_height"))
 endFunction
 
-; DOC
+
 int function GetCurrentWidth() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("_width"))
 endFunction
 
-; DOC
+
 int function GetCommandHistoryPositionY() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("CommandHistory._y"))
 endFunction
 
-; DOC
+
 int function GetCommandHistoryPositionX() global
     return UI.GetInt(GetMenuName(), GetInstanceTarget("CommandHistory._x"))
 endFunction

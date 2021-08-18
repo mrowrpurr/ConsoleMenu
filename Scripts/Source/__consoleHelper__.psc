@@ -1,7 +1,13 @@
 scriptName __consoleHelper__ extends Quest hidden
 {[INTERNAL] Allows ConsoleHelper to store persistent data and perform operations on Console open/close}
 
-; TODO TODO TODO - REMOVE CONSOLE UTIL SUPPORT BECAUSE IT MAKES COMPILATION SAD FACE - MEANS WE CAN COMPLETELY GET RID OF CACHE CLEARING
+int function GetScreenHeight() global
+    return Utility.GetINIINt("iSize H:Display")
+endFunction
+
+int function GetScreenWidth() global
+    return Utility.GetINIInt("iSize W:Display")
+endFunction
 
 ; Stores the currently installed version of ConsoleHelper
 float property CurrentlyInstalledVersion auto
