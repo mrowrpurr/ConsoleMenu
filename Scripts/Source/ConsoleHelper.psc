@@ -801,6 +801,61 @@ endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Commands History Array
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Returns target string for use by the UI script for interacting with the Commands array which stores the history of run commands
+string function GetCommandHistoryTarget(string suffix = "") global
+    if suffix
+        return GetInstanceTarget("Commands." + suffix)
+    else
+        return GetInstanceTarget("Commands")
+    endIf
+endFunction
+
+string[] function GetCommandHistory() global
+    int historyLength = GetCommandHistoryLength()
+    if historyLength > 0
+        int index = 0
+        string[] commands = Utility.CreateStringArray(historyLength)
+        while index < historyLength
+            commands[index] = GetCommandHistoryItem(index)
+            index += 1
+        endWhile
+        return commands
+    endIf
+endFunction
+
+string function GetCommandHistoryItem(int index) global
+    return UI.GetString(GetMenuName(), GetCommandHistoryTarget(index))
+endFunction
+
+int function GetCommandHistoryLength() global
+    return UI.GetInt(GetMenuName(), GetCommandHistoryTarget("length"))
+endFunction
+
+function ClearCommandHistory() global
+    return UI.InvokeInt(GetMenuName(), GetCommandHistoryTarget("splice"), 0)
+endFunction
+
+function AddToCommandHistory(string command) global
+    return UI.InvokeString(GetMenuName(), GetCommandHistoryTarget("push"), command)
+endFunction
+
+function RemoveOldestCommandHistoryItem() global
+    return UI.Invoke(GetMenuName(), GetCommandHistoryTarget("shift"))
+endFunction
+
+function RemoveMostRecentCommandHistoryItem() global
+    int spliceStart = GetCommandHistoryLength() - 1; pop() not working for me
+    return UI.InvokeInt(GetMenuName(), GetCommandHistoryTarget("splice"), spliceStart)
+endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ... organize me ...
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 function CenterConsole() global
     int screenWidth = GetScreenWidth()
     int currentWidth = GetCurrentWidth()
@@ -994,23 +1049,18 @@ endFunction
 ; Note: when this is in-use, no console commands will be executed.
 ; You can process the commands however you wish.
 ; Use ExecuteCommand() if you'd like to run the command using the native command execution.
+;
+; It *sort of* works with the vanilla console.swf but it will print out an error for every custom command you run
+; and it will run commands, you cannot keep it from running commands for you.
 function RegisterForCustomCommands(string eventName) global
-    if IsConsoleHelperConsoleInstalled()
-        __consoleHelper__.GetInstance().RegisterForCustomCommands(eventName)
-    else
-        ; TODO TRACE MESSAGE
-    endIf
+    __consoleHelper__.GetInstance().RegisterForCustomCommands(eventName)
 endFunction
 
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
 ; See RegisterForCustomCommands() for documentation.
 function UnregisterForCustomCommands(string eventName) global
-    if IsConsoleHelperConsoleInstalled()
-        __consoleHelper__.GetInstance().UnregisterForCustomCommands(eventName)
-    else
-        ;; TODO TRACE MESSAGE
-    endIf
+    __consoleHelper__.GetInstance().UnregisterForCustomCommands(eventName)
 endFunction
 
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
