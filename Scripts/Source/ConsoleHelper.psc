@@ -36,7 +36,11 @@ endFunction
 ;
 ; Delegates the provided command to the default command runner used in the Console
 function ExecuteCommand(string command) global
-    UI.InvokeString(GetMenuName(), GetInstanceTarget("ExecuteCommand"), command)
+    if IsConsoleHelperConsoleInstalled()
+        UI.InvokeString(GetMenuName(), GetInstanceTarget("ExecuteCommand"), command)
+    else
+        __consoleHelper__.LogCustomSwfRequiredError("ExecuteCommand")
+    endIf
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -44,9 +48,8 @@ endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Prints to the console
-; Alias for AddHistoryline()
 function Print(string text) global
-    AddBodyLine(text)
+    AppendBodyText(text + "\n")
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -63,13 +66,86 @@ int function GetScreenWidth() global
     return Utility.GetINIInt("iSize W:Display")
 endFunction
 
+function SetHeight(int pixels) global
+    UI.SetFloat(GetMenuName(), GetInstanceTarget("_height"), pixels)
+endFunction
+
+function SetWidth(int pixels) global
+    UI.SetFloat(GetMenuName(), GetInstanceTarget("_width"), pixels)
+endFunction
+
+function Scale(int percentage) global
+    float multiplier = percentage / 100.0
+    SetWidth((GetCurrentWidth() * multiplier) as int)
+    SetHeight((GetCurrentHeight() * multiplier) as int)
+endFunction
+
+function ResetScale() global
+    SetWidth(__consoleHelper__.GetInstance().InitialConsoleWidth)
+    SetHeight(__consoleHelper__.GetInstance().InitialConsoleHeight)
+endFunction
+
+int function GetOriginalHeight() global
+    return UI.GetInt(GetMenuName(), GetInstanceTarget("OriginalHeight"))
+endFunction
+
+int function GetOriginalWidth() global
+    return UI.GetInt(GetMenuName(), GetInstanceTarget("OriginalWidth"))
+endFunction
+
+int function GetCurrentHeight() global
+    return UI.GetInt(GetMenuName(), GetInstanceTarget("_height"))
+endFunction
+
+int function GetCurrentWidth() global
+    return UI.GetInt(GetMenuName(), GetInstanceTarget("_width"))
+endFunction
+
+int function GetPositionY() global
+    return UI.GetInt(GetMenuName(), GetInstanceTarget("_parent._y"))
+endFunction
+
+int function GetPositionX() global
+    return UI.GetInt(GetMenuName(), GetInstanceTarget("_parent._x"))
+endFunction
+
+function SetPositionY(int height) global
+    UI.SetFloat(GetMenuName(), GetInstanceTarget("_parent._y"), height)
+endFunction
+
+function SetPositionX(int height) global
+    UI.SetFloat(GetMenuName(), GetInstanceTarget("_parent._x"), height)
+endFunction
+
+function ResetPosition() global
+    SetPositionX(__consoleHelper__.GetInstance().InitialConsoleX)
+    SetPositionY(__consoleHelper__.GetInstance().InitialConsoleY)
+endFunction
+
+function ResetScaleAndPosition() global
+    ResetScale()
+    ResetPosition()
+endFunction
+
+function CenterConsole() global
+    int screenWidth = GetScreenWidth()
+    int currentWidth = GetCurrentWidth()
+    int emptySpaceOnSides = screenWidth - currentWidth
+    SetPositionX(emptySpaceOnSides / 2)
+endFunction
+
 function ScrollUp() global
     if IsConsoleHelperConsoleInstalled()
         UI.Invoke(GetMenuName(), GetInstanceTarget("ScrollUp"))
     else
-        ; var _loc2_ = this.CommandHistory.bottomScroll - this.CommandHistory.scroll;
-        ;   var _loc3_ = this.CommandHistory.scroll - _loc2_;
-        ;   this.CommandHistory.scroll = _loc3_ <= 0 ? 0 : _loc3_;
+        int bodyScroll = UI.GetInt(GetMenuName(), GetBodyTarget("scroll"))
+        int bottomScroll = UI.GetInt(GetMenuName(), GetBodyTarget("bottomScroll"))
+        int scrollPx = bodyScroll - bodyScroll - bottomScroll
+        if scrollPx <= 0
+            UI.SetFloat(GetMenuName(), GetBodyTarget("scroll"), 0)
+        else
+            UI.SetFloat(GetMenuName(), GetBodyTarget("scroll"), scrollPx)
+        endIf
     endIf
 endFunction
 
@@ -77,9 +153,15 @@ function ScrollDown() global
     if IsConsoleHelperConsoleInstalled()
         UI.Invoke(GetMenuName(), GetInstanceTarget("ScrollDown"))
     else
-        ;   _loc1_ = this.CommandHistory.bottomScroll - this.CommandHistory.scroll;
-        ;   _loc2_ = this.CommandHistory.scroll + _loc1_;
-        ;   this.CommandHistory.scroll = _loc2_ > this.CommandHistory.maxscroll ? this.CommandHistory.maxscroll : _loc2_;
+        int bodyScroll = UI.GetInt(GetMenuName(), GetBodyTarget("scroll"))
+        int bottomScroll = UI.GetInt(GetMenuName(), GetBodyTarget("bottomScroll"))
+        int maxScroll = UI.GetInt(GetMenuName(), GetBodyTarget("maxscroll"))
+        int scrollPx = bodyScroll + (bottomScroll - bodyScroll)
+        if scrollPx > maxScroll
+            UI.SetFloat(GetMenuName(), GetBodyTarget("scroll"), maxScroll)
+        else
+            UI.SetFloat(GetMenuName(), GetBodyTarget("scroll"), scrollPx)
+        endIf
     endif
 endFunction
 
@@ -194,9 +276,9 @@ function ShowBackgrounds() global
     ShowTextInputBorder()
 endFunction
 function HideBackgrounds() global
-    HideHeaderBorder()
-    HideBodyBorder()
-    HideTextInputBorder()
+    HideHeaderBackground()
+    HideBodyBackground()
+    HideTextInputBackground()
 endFunction
 
 ;; ~ Border Color ~
@@ -216,15 +298,6 @@ function HideBorders() global
     HideBodyBorder()
     HideTextInputBorder()
 endFunction
-
-;; ~ Adjust Size and Position ~
-
-; TODO
-
-
-
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Current Selection aka "Header" TextInput Functions
@@ -426,7 +499,7 @@ endFunction
 
 ;; ~ Get/Set/Clear Text ~
 
-function AddBodyLine(string text) global
+function AppendBodyText(string text) global
     UI.InvokeString(GetMenuName(), GetTarget("AddHistory"), text)
 endFunction
 string function GetBodyText() global
@@ -519,8 +592,6 @@ function SetBodyBorderColor(string color, bool enableBorder = true) global
         ShowBodyBorder()
     endIf
     UI.SetString(GetMenuName(), GetBodyTarget("borderColor"), GetColor(color))
-        ;     UI.SetBool("Console", ConsoleHelper.GetInstanceTarget("CommandHistory.border"), true)
-        ; UI.SetString("Console", ConsoleHelper.GetInstanceTarget("CommandHistory.borderColor"), ConsoleHelper.GetColor("red"))
 endFunction
 int function GetBodyBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetBodyTarget("borderColor"))
@@ -693,8 +764,6 @@ function SetTextInputBorderColor(string color, bool enableBorder = true) global
         ShowTextInputBorder()
     endIf
     UI.SetString(GetMenuName(), GetTextInputTarget("borderColor"), GetColor(color))
-    ;  UI.SetBool("Console", ConsoleHelper.GetInstanceTarget("CommandEntry.border"), true)
-    ;     UI.SetString("Console", ConsoleHelper.GetInstanceTarget("CommandEntry.borderColor"), ConsoleHelper.GetColor("red"))
 endFunction
 int function GetTextInputBorderColorInt() global
     return UI.GetInt(GetMenuName(), GetTextInputTarget("borderColor"))
@@ -850,6 +919,11 @@ function RemoveMostRecentCommandHistoryItem() global
     return UI.InvokeInt(GetMenuName(), GetCommandHistoryTarget("splice"), spliceStart)
 endFunction
 
+string function GetMostRecentCommandHistoryItem() global
+    int index = GetCommandHistoryLength() - 1
+    return UI.GetString(GetMenuName(), GetCommandHistoryTarget(index))
+endFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Open / Close
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -907,85 +981,6 @@ endFunction
 
 bool function IsMinimized() global
     return GetPositionY() == (GetOriginalHeight() - GetBodyPositionY())
-endFunction
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Height / Width / Position
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-int function GetOriginalHeight() global
-    return UI.GetInt(GetMenuName(), GetInstanceTarget("OriginalHeight"))
-endFunction
-
-
-int function GetOriginalWidth() global
-    return UI.GetInt(GetMenuName(), GetInstanceTarget("OriginalWidth"))
-endFunction
-
-
-int function GetCurrentHeight() global
-    return UI.GetInt(GetMenuName(), GetInstanceTarget("_height"))
-endFunction
-
-
-int function GetCurrentWidth() global
-    return UI.GetInt(GetMenuName(), GetInstanceTarget("_width"))
-endFunction
-
-int function GetPositionY() global
-    return UI.GetInt(GetMenuName(), GetInstanceTarget("_parent._y"))
-endFunction
-
-int function GetPositionX() global
-    return UI.GetInt(GetMenuName(), GetInstanceTarget("_parent._x"))
-endFunction
-
-function SetPositionY(int height) global
-    UI.SetFloat(GetMenuName(), GetInstanceTarget("_parent._y"), height)
-endFunction
-
-function SetPositionX(int height) global
-    UI.SetFloat(GetMenuName(), GetInstanceTarget("_parent._x"), height)
-endFunction
-
-function SetHeight(int pixels) global
-    UI.SetFloat(GetMenuName(), GetInstanceTarget("_height"), pixels)
-endFunction
-
-function SetWidth(int pixels) global
-    UI.SetFloat(GetMenuName(), GetInstanceTarget("_width"), pixels)
-endFunction
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Change Size / Position
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-function Scale(int percentage) global
-    float multiplier = percentage / 100.0
-    SetWidth((GetCurrentWidth() * multiplier) as int)
-    SetHeight((GetCurrentHeight() * multiplier) as int)
-endFunction
-
-function ResetScale() global
-    SetWidth(__consoleHelper__.GetInstance().InitialConsoleWidth)
-    SetHeight(__consoleHelper__.GetInstance().InitialConsoleHeight)
-endFunction
-
-function ResetPosition() global
-    SetPositionX(__consoleHelper__.GetInstance().InitialConsoleX)
-    SetPositionY(__consoleHelper__.GetInstance().InitialConsoleY)
-endFunction
-
-function ResetScaleAndPosition() global
-    ResetScale()
-    ResetPosition()
-endFunction
-
-function CenterConsole() global
-    int screenWidth = GetScreenWidth()
-    int currentWidth = GetCurrentWidth()
-    int emptySpaceOnSides = screenWidth - currentWidth
-    SetPositionX(emptySpaceOnSides / 2)
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
