@@ -150,7 +150,13 @@ event OnKeyDown(int keyCode)
             int index = 0
             while index < RegisteredCustomCommandEvents.Length
                 string eventName = RegisteredCustomCommandEvents[index]
-                string currentInputText = ConsoleHelper.GetAndClearInputText()
+                string currentInputText
+                if IsConsoleHelperConsoleInstalled
+                    currentInputText = ConsoleHelper.GetAndClearInputText()
+                else
+                    ; Hack for vanilla, get the last line from the Commands list
+                    currentInputText = ConsoleHelper.GetMostRecentCommandHistoryItem()
+                endIf
                 SendModEvent(eventName, currentInputText, 0.0)
                 index += 1
             endWhile
