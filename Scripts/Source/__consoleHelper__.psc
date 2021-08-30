@@ -121,6 +121,10 @@ function EnableCustomConsoleCommands()
     ConsoleHelper.DisableNativeEnterReturnKeyHandling()
     IsCustomConsoleCommandsEnabled = true
     RegisterForMenu(ConsoleHelper.GetMenuName())
+    if ConsoleHelper.IsOpen()
+        RegisterForKey(ENTER_KEY)
+        RegisterForKey(RETURN_KEY)
+    endIf
 endFunction
 
 ; Disables "custom console commands" functionality
@@ -128,10 +132,16 @@ function DisableCustomConsoleCommands()
     UnregisterForMenu(ConsoleHelper.GetMenuName())
     ConsoleHelper.EnableNativeEnterReturnKeyHandling()
     IsCustomConsoleCommandsEnabled = false
+    if ConsoleHelper.IsOpen()
+        UnregisterForKey(ENTER_KEY)
+        UnregisterForKey(RETURN_KEY)
+    endIf
 endFunction
 
 event OnMenuOpen(string menuName)
     if menuName == ConsoleHelper.GetMenuName()
+        UnregisterForKey(ENTER_KEY)
+        UnregisterForKey(RETURN_KEY)
         RegisterForKey(ENTER_KEY)
         RegisterForKey(RETURN_KEY)
     endIf
