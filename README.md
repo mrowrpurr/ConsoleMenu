@@ -1,4 +1,4 @@
-![Console Helper](Images/ConsoleHelper.jpg)
+![Console Helper](Images/Console.jpg)
 
 # Skyrim `~` Console Utility Library
 

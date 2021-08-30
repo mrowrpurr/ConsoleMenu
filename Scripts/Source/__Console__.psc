@@ -1,7 +1,7 @@
-scriptName __consoleHelper__ extends Quest hidden
-{[INTERNAL] Allows ConsoleHelper to store persistent data and perform operations on Console open/close}
+scriptName __Console__ extends Quest hidden
+{[INTERNAL] Allows Console to store persistent data and perform operations on Console open/close}
 
-; Stores the currently installed version of ConsoleHelper
+; Stores the currently installed version of Console
 float property CurrentlyInstalledVersion auto
 
 ; The console height at the time the mod is loaded (recalculated on game save loads)
@@ -16,29 +16,29 @@ int property InitialConsoleX auto
 ; The console Y position at the time the mod is loaded (recalculated on game save loads)
 int property InitialConsoleY auto
 
-; Adds to the Papyrus logs with the prefix [ConsoleHelper]
+; Adds to the Papyrus logs with the prefix [Console]
 function Log(string text) global
-    Debug.Trace("[ConsoleHelper] " + text)
+    Debug.Trace("[Console] " + text)
 endFunction
 
 function LogCustomSwfRequiredError(string functionName) global
-    Log(functionName + " could not be called. Requires ConsoleHelper's custom console.swf which is not currently installed. Note: it should be build-in to the primary distributed ConsoleHelper mod.")
+    Log(functionName + " could not be called. Requires Console's custom console.swf which is not currently installed. Note: it should be build-in to the primary distributed Console mod.")
 endFunction
 
 event OnInit()
     ; Set the currently installed version of this mod on first-time mod initialization
-    CurrentlyInstalledVersion = ConsoleHelper.GetConsoleHelperVersion()
+    CurrentlyInstalledVersion = Console.GetConsoleVersion()
     ResetData()
 endEvent
 
-; Helper to get an instance of __consoleHelper__ for use in the public ConsoleHelper interface
-__consoleHelper__ function GetInstance() global
-    return Game.GetFormFromFile(0x800, "ConsoleHelper.esp") as __consoleHelper__
+; Helper to get an instance of __Console__ for use in the public Console interface
+__Console__ function GetInstance() global
+    return Game.GetFormFromFile(0x800, "Console.esp") as __Console__
 endFunction
 
-; Returns true if the currently console.swf used by the game is our customized version for ConsoleHelper
-bool function GetIsConsoleHelperConsoleInstalled() global
-    return GetInstance().IsConsoleHelperConsoleInstalled
+; Returns true if the currently console.swf used by the game is our customized version for Console
+bool function GetIsConsoleConsoleInstalled() global
+    return GetInstance().IsConsoleConsoleInstalled
 endFunction
 
 ; Starts listening for custom commands (if not already)
@@ -118,27 +118,27 @@ endFunction
 
 ; Enables "custom console commands" functionality
 function EnableCustomConsoleCommands()
-    ConsoleHelper.DisableNativeEnterReturnKeyHandling()
+    Console.DisableNativeEnterReturnKeyHandling()
     IsCustomConsoleCommandsEnabled = true
-    RegisterForMenu(ConsoleHelper.GetMenuName())
+    RegisterForMenu(Console.GetMenuName())
 endFunction
 
 ; Disables "custom console commands" functionality
 function DisableCustomConsoleCommands()
-    UnregisterForMenu(ConsoleHelper.GetMenuName())
-    ConsoleHelper.EnableNativeEnterReturnKeyHandling()
+    UnregisterForMenu(Console.GetMenuName())
+    Console.EnableNativeEnterReturnKeyHandling()
     IsCustomConsoleCommandsEnabled = false
 endFunction
 
 event OnMenuOpen(string menuName)
-    if menuName == ConsoleHelper.GetMenuName()
+    if menuName == Console.GetMenuName()
         RegisterForKey(ENTER_KEY)
         RegisterForKey(RETURN_KEY)
     endIf
 endEvent
 
 event OnMenuClose(string menuName)
-    if menuName == ConsoleHelper.GetMenuName()
+    if menuName == Console.GetMenuName()
         UnregisterForKey(ENTER_KEY)
         UnregisterForKey(RETURN_KEY)
     endIf
@@ -151,11 +151,11 @@ event OnKeyDown(int keyCode)
             while index < RegisteredCustomCommandEvents.Length
                 string eventName = RegisteredCustomCommandEvents[index]
                 string currentInputText
-                if IsConsoleHelperConsoleInstalled
-                    currentInputText = ConsoleHelper.GetAndClearInputText()
+                if IsConsoleConsoleInstalled
+                    currentInputText = Console.GetAndClearInputText()
                 else
                     ; Hack for vanilla, get the last line from the Commands list
-                    currentInputText = ConsoleHelper.GetMostRecentCommandHistoryItem()
+                    currentInputText = Console.GetMostRecentCommandHistoryItem()
                 endIf
                 SendModEvent(eventName, currentInputText, 0.0)
                 index += 1
@@ -171,16 +171,16 @@ function ResetData()
 endFunction
 
 function SaveCurrentConsoleDimensions()
-    InitialConsoleWidth = ConsoleHelper.GetCurrentWidth()
-    InitialConsoleHeight = ConsoleHelper.GetCurrentHeight()
-    InitialConsoleX = ConsoleHelper.GetPositionX()
-    InitialConsoleY = ConsoleHelper.GetPositionY()
+    InitialConsoleWidth = Console.GetCurrentWidth()
+    InitialConsoleHeight = Console.GetCurrentHeight()
+    InitialConsoleX = Console.GetPositionX()
+    InitialConsoleY = Console.GetPositionY()
 endFunction
 
 ; Reset the caches of whether various things are installed
 ; Reset on original mod installation and then on player load game events
 function ClearCache()
-    __isConsoleHelperConsoleInstalled = -1
+    __isConsoleConsoleInstalled = -1
     IsCustomConsoleCommandsEnabled = false
     InitialConsoleWidth = -1
     InitialConsoleHeight = -1
@@ -197,21 +197,21 @@ string[] RegisteredCustomCommandEvents
 ; Cache of whether the native [Enter]/[Return] handling of the console is disabled
 bool IsCustomConsoleCommandsEnabled = false
 
-; Cache of whether the ConsoleHelper custom console.swf is installed
-int __isConsoleHelperConsoleInstalled = -1
+; Cache of whether the Console custom console.swf is installed
+int __isConsoleConsoleInstalled = -1
 
-; Property which is true if the currently console.swf used by the game is our customized version for ConsoleHelper
-bool property IsConsoleHelperConsoleInstalled
+; Property which is true if the currently console.swf used by the game is our customized version for Console
+bool property IsConsoleConsoleInstalled
     bool function get()
-        if __isConsoleHelperConsoleInstalled == -1
-            bool isInstalled = UI.GetBool(ConsoleHelper.GetMenuName(), ConsoleHelper.GetTarget("IsConsoleHelperConsole"))
+        if __isConsoleConsoleInstalled == -1
+            bool isInstalled = UI.GetBool(Console.GetMenuName(), Console.GetTarget("IsConsoleConsole"))
             if isInstalled
-                __isConsoleHelperConsoleInstalled = 1
+                __isConsoleConsoleInstalled = 1
             else
-                __isConsoleHelperConsoleInstalled = 0
+                __isConsoleConsoleInstalled = 0
             endIf
         endIf
-        return __isConsoleHelperConsoleInstalled == 1
+        return __isConsoleConsoleInstalled == 1
     endFunction
 endProperty
 
