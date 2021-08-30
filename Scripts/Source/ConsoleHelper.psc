@@ -35,11 +35,31 @@ endFunction
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
 ; Delegates the provided command to the default command runner used in the Console
-function ExecuteCommand(string command) global
+string function ExecuteCommand(string command, bool getResult = true, bool printCommand = true, float responseWaitTime = 0.1) global
+    __consoleHelper__.Log("ExecuteCommand '" + command + "'")
     if IsConsoleHelperConsoleInstalled()
-        UI.InvokeString(GetMenuName(), GetInstanceTarget("ExecuteCommand"), command)
+        if printCommand
+            Print(command)
+        endIf
+        if getResult
+            int beforeLength = StringUtil.GetLength(GetBodyText())
+            UI.InvokeString(GetMenuName(), GetInstanceTarget("ExecuteCommand"), command)
+            Utility.WaitMenuMode(responseWaitTime)
+            string afterBodyText = GetBodyText()
+            int afterLength = StringUtil.GetLength(afterBodyText)
+            if afterLength > beforeLength
+                return StringUtil.Substring(afterBodyText, beforeLength)
+            else
+                return ""
+            endIf
+        else
+            UI.InvokeString(GetMenuName(), GetInstanceTarget("ExecuteCommand"), command)
+            return ""
+        endIf
     else
+        __consoleHelper__.Log("CUSTOM SWF NOT INSTALLED")
         __consoleHelper__.LogCustomSwfRequiredError("ExecuteCommand")
+        return ""
     endIf
 endFunction
 
