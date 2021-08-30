@@ -35,11 +35,14 @@ endFunction
 ; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
 ;
 ; Delegates the provided command to the default command runner used in the Console
-string function ExecuteCommand(string command, bool getResult = true, bool printCommand = true, float responseWaitTime = 0.1) global
+string function ExecuteCommand(string command, bool getResult = true, bool addToHistory = true, bool printCommand = true, float responseWaitTime = 0.1) global
     __consoleHelper__.Log("ExecuteCommand '" + command + "'")
     if IsConsoleHelperConsoleInstalled()
         if printCommand
             Print(command)
+        endIf
+        if addToHistory
+            AddToCommandHistory(command)
         endIf
         if getResult
             int beforeLength = StringUtil.GetLength(GetBodyText())
