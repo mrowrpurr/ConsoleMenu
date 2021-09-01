@@ -35,10 +35,10 @@ endFunction
 ; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 ;
 ; Delegates the provided command to the default command runner used in the Console
-string function ExecuteCommand(string command, bool getResult = true, bool addToHistory = true, bool printCommand = true, float responseWaitTime = 0.1) global
+string function ExecuteCommand(string command, bool getResult = true, bool addToHistory = true, bool displayCommand = true, float responseWaitTime = 0.1) global
     ConsoleMenuPrivateAPI.Log("ExecuteCommand '" + command + "'")
     if IsConsoleMenuConsoleInstalled()
-        if printCommand
+        if displayCommand
             Print(command)
         endIf
         if addToHistory
