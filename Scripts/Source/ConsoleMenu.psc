@@ -1,12 +1,12 @@
-scriptName ConsoleHelper hidden
+scriptName ConsoleMenu hidden
 {Utility for working with the Skyrim ~ console menu}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ConsoleHelper version
+;; ConsoleMenu version
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Returns the version of the ConsoleHelper mod
-float function GetConsoleHelperVersion() global
+; Returns the version of the ConsoleMenu mod
+float function GetConsoleMenuVersion() global
     return 1.0
 endFunction
 
@@ -20,24 +20,24 @@ string function GetMenuName() global
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Check if ConsoleHelper console.swf is available
+;; Check if ConsoleMenu console.swf is available
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Returns whether the ConsoleHelper custom .swf is installed (built-in to the mod package)
-bool function IsConsoleHelperConsoleInstalled() global
-    return __consoleHelper__.GetIsConsoleHelperConsoleInstalled()
+; Returns whether the ConsoleMenu custom .swf is installed (built-in to the mod package)
+bool function IsConsoleMenuConsoleInstalled() global
+    return ConsoleMenuPrivateAPI.GetIsConsoleMenuConsoleInstalled()
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Execute Command
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 ;
 ; Delegates the provided command to the default command runner used in the Console
 string function ExecuteCommand(string command, bool getResult = true, bool addToHistory = true, bool printCommand = true, float responseWaitTime = 0.1) global
-    __consoleHelper__.Log("ExecuteCommand '" + command + "'")
-    if IsConsoleHelperConsoleInstalled()
+    ConsoleMenuPrivateAPI.Log("ExecuteCommand '" + command + "'")
+    if IsConsoleMenuConsoleInstalled()
         if printCommand
             Print(command)
         endIf
@@ -60,8 +60,8 @@ string function ExecuteCommand(string command, bool getResult = true, bool addTo
             return ""
         endIf
     else
-        __consoleHelper__.Log("CUSTOM SWF NOT INSTALLED")
-        __consoleHelper__.LogCustomSwfRequiredError("ExecuteCommand")
+        ConsoleMenuPrivateAPI.Log("CUSTOM SWF NOT INSTALLED")
+        ConsoleMenuPrivateAPI.LogCustomSwfRequiredError("ExecuteCommand")
         return ""
     endIf
 endFunction
@@ -104,8 +104,8 @@ function Scale(int percentage) global
 endFunction
 
 function ResetScale() global
-    SetWidth(__consoleHelper__.GetInstance().InitialConsoleWidth)
-    SetHeight(__consoleHelper__.GetInstance().InitialConsoleHeight)
+    SetWidth(ConsoleMenuPrivateAPI.GetInstance().InitialConsoleWidth)
+    SetHeight(ConsoleMenuPrivateAPI.GetInstance().InitialConsoleHeight)
 endFunction
 
 int function GetOriginalHeight() global
@@ -141,8 +141,8 @@ function SetPositionX(int height) global
 endFunction
 
 function ResetPosition() global
-    SetPositionX(__consoleHelper__.GetInstance().InitialConsoleX)
-    SetPositionY(__consoleHelper__.GetInstance().InitialConsoleY)
+    SetPositionX(ConsoleMenuPrivateAPI.GetInstance().InitialConsoleX)
+    SetPositionY(ConsoleMenuPrivateAPI.GetInstance().InitialConsoleY)
 endFunction
 
 function ResetScaleAndPosition() global
@@ -158,7 +158,7 @@ function CenterConsole() global
 endFunction
 
 function ScrollUp() global
-    if IsConsoleHelperConsoleInstalled()
+    if IsConsoleMenuConsoleInstalled()
         UI.Invoke(GetMenuName(), GetInstanceTarget("ScrollUp"))
     else
         int bodyScroll = UI.GetInt(GetMenuName(), GetBodyTarget("scroll"))
@@ -173,7 +173,7 @@ function ScrollUp() global
 endFunction
 
 function ScrollDown() global
-    if IsConsoleHelperConsoleInstalled()
+    if IsConsoleMenuConsoleInstalled()
         UI.Invoke(GetMenuName(), GetInstanceTarget("ScrollDown"))
     else
         int bodyScroll = UI.GetInt(GetMenuName(), GetBodyTarget("scroll"))
@@ -369,7 +369,7 @@ endFunction
 
 ;; ~ Text Size ~
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 function SetHeaderTextSize(int pointSize) global
     UI.InvokeInt(GetMenuName(), GetTarget("SetCurrentSelectionTextSize"), pointSize)
 endFunction
@@ -537,7 +537,7 @@ endFunction
 
 ;; ~ Text Size ~
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 function SetBodyTextSize(int pointSize) global
     UI.InvokeInt(GetMenuName(), GetTarget("SetCurrentSelectionTextSize"), pointSize)
 endFunction
@@ -692,7 +692,7 @@ string function GetTextInputText() global
     return UI.GetString(GetMenuName(), GetTextInputTarget("text"))
 endFunction
 function SetTextInputText(string value) global
-    if IsConsoleHelperConsoleInstalled()
+    if IsConsoleMenuConsoleInstalled()
         UI.InvokeString(GetMenuName(), GetInstanceTarget("SetCommandEntryText"), value)
     else
         UI.SetString(GetMenuName(), GetTextInputTarget("text"), value)
@@ -709,7 +709,7 @@ endFunction
 
 ;; ~ Text Size ~
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 function SetTextInputTextSize(int pointSize) global
     UI.InvokeInt(GetMenuName(), GetTarget("SetCurrentSelectionTextSize"), pointSize)
 endFunction
@@ -1010,7 +1010,7 @@ endFunction
 ;; Custom Console Commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 ;
 ; This will send an SKSE ModEvent to the caller using the callbackFn provided
 ; whenever the [Enter] or [Return] key is pressed, sending along the text of
@@ -1033,35 +1033,35 @@ endFunction
 ; It *sort of* works with the vanilla console.swf but it will print out an error for every custom command you run
 ; and it will run commands, you cannot keep it from running commands for you.
 function RegisterForCustomCommands(string eventName) global
-    __consoleHelper__.GetInstance().RegisterForCustomCommands(eventName)
+    ConsoleMenuPrivateAPI.GetInstance().RegisterForCustomCommands(eventName)
 endFunction
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 ;
 ; See RegisterForCustomCommands() for documentation.
 function UnregisterForCustomCommands(string eventName) global
-    __consoleHelper__.GetInstance().UnregisterForCustomCommands(eventName)
+    ConsoleMenuPrivateAPI.GetInstance().UnregisterForCustomCommands(eventName)
 endFunction
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 ;
 ; Disables the native console's handling of the Enter and Return keys
 function DisableNativeEnterReturnKeyHandling() global
-    if IsConsoleHelperConsoleInstalled()
+    if IsConsoleMenuConsoleInstalled()
         UI.SetBool(GetMenuName(), GetInstanceTarget("HandleEnterReturnKeys"), false)
     else
-        __consoleHelper__.LogCustomSwfRequiredError("DisableNativeEnterReturnKeyHandling")
+        ConsoleMenuPrivateAPI.LogCustomSwfRequiredError("DisableNativeEnterReturnKeyHandling")
     endIf
 endFunction
 
-; *Requires ConsoleHelper's custom console.swf (built-in to the mod package)*
+; *Requires ConsoleMenu's custom console.swf (built-in to the mod package)*
 ;
 ; Enables the native console's handling of the Enter and Return keys
 function EnableNativeEnterReturnKeyHandling() global
-    if IsConsoleHelperConsoleInstalled()
+    if IsConsoleMenuConsoleInstalled()
         UI.SetBool(GetMenuName(), GetInstanceTarget("HandleEnterReturnKeys"), true)
     else
-        __consoleHelper__.LogCustomSwfRequiredError("EnableNativeEnterReturnKeyHandling")
+        ConsoleMenuPrivateAPI.LogCustomSwfRequiredError("EnableNativeEnterReturnKeyHandling")
     endIf
 endFunction
 
